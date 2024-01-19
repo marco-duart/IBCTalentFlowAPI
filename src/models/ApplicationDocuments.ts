@@ -1,19 +1,19 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-interface IApplicationDocumentsAttributes {
+interface IApplicationDocuments {
   resume: string;
   coverLetter?: string;
   relevantDocuments: string[];
   candidate: string;
-  deletedAt?: Date | null;
+  deletedAt?: Date;
 }
 
-class ApplicationDocuments extends Model<IApplicationDocumentsAttributes> implements IApplicationDocumentsAttributes {
+class ApplicationDocuments extends Model<IApplicationDocuments> implements IApplicationDocuments {
   public resume!: string;
   public coverLetter?: string;
   public relevantDocuments!: string[];
   public candidate!: string;
-  public deletedAt?: Date | null;
+  public deletedAt?: Date | undefined;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

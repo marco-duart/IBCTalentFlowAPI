@@ -1,11 +1,11 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface ICandidate extends Document {
+export interface ICandidate {
   name: string;
   email: string;
   phoneNumber: string;
-  resume: string; //(file or text)
-  portfolio: string;
+  resume?: string; //(file or text)
+  portfolio?: string;
   academicHistory: {
     title: string;
     institution: string;
@@ -13,57 +13,93 @@ export interface ICandidate extends Document {
     startDate: Date;
     endDate: Date;
   }[];
-  skills: string[];
-  professionalLinks: {
+  skills?: string[];
+  professionalLinks?: {
     title: string;
     link: string;
   }[];
-  employmentHistory: string
-  applicationStatus: string[]
-  interviews: string[]
-  feedback: string[]
-  applicationDocuments: string[]
-  deletedAt: Date;
+  employmentHistory?: string;
+  applicationStatus?: string[];
+  interviews?: string[];
+  feedback?: string[];
+  applicationDocuments?: string[];
+  deletedAt?: Date;
 }
 
-export const CandidateSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phoneNumber: { type: String, required: true },
-    resume: { type: String, required: true },
-    portfolio: { type: String },
-    academicHistory: [
-      {
-        title: { type: String },
-        institution: { type: String },
-        degree: { type: String },
-        startDate: { type: Date },
-        endDate: { type: Date },
-      },
-    ],
-    skills: { type: [String] },
-    professionalLinks: [
-      {
-        title: { type: String },
-        link: { type: String },
-      },
-    ],
-    employmentHistory: {
-      type: Schema.Types.ObjectId,
-      ref: "EmploymentHistory",
-    },
-    applicationStatus: [
-      { type: Schema.Types.ObjectId, ref: "ApplicationStatus" },
-    ],
-    interviews: [{ type: Schema.Types.ObjectId, ref: "Interview" }],
-    feedback: [{ type: Schema.Types.ObjectId, ref: "Feedback" }],
-    applicationDocuments: [
-      { type: Schema.Types.ObjectId, ref: "ApplicationDocument" },
-    ],
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class Candidate extends Model<ICandidate> implements ICandidate {
+  public name!: string;
+  public email!: string;
+  public phoneNumber!: string;
+  public resume?: string | undefined;
+  public portfolio?: string | undefined;
+  public academicHistory!: {
+    title: string;
+    institution: string;
+    degree: string;
+    startDate: Date;
+    endDate: Date;
+  }[];
+  public skills?: string[];
+  public professionalLinks?: { title: string; link: string }[] | undefined;
+  public employmentHistory?: string | undefined;
+  public applicationStatus?: string[] | undefined;
+  public interviews?: string[] | undefined;
+  public feedback?: string[] | undefined;
+  public applicationDocuments?: string[] | undefined;
+  public deletedAt?: Date | undefined;
 
-export const Candidate = model("Candidate", CandidateSchema);
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+export const initCandidate = (sequelize: Sequelize) => {
+  Candidate.init({
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phoneNumber: { type: DataTypes.STRING, allowNull: false },
+    resume: {
+      type: DataTypes.STRING,
+    },
+    portfolio: {
+      type: DataTypes.STRING,
+    },
+    academicHistory: {
+      title: { type: DataTypes.STRING },
+      institution: { type: DataTypes.STRING },
+      degree: { type: DataTypes.STRING },
+      startDate: { type: DataTypes.DATE },
+      endDate: { type: DataTypes.DATE },
+    },
+    skills: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
+    },
+    professionalLinks: {
+      title: { type: DataTypes.STRING},
+      link: { type: DataTypes.STRING}
+    },
+    employmentHistory: {
+      type: DataTypes.UUID
+    },
+    applicationStatus: {
+      type: DataTypes.ARRAY(DataTypes.UUID)
+    },
+    interviews: {
+      type: DataTypes.ARRAY(DataTypes.UUID)
+    },
+    feedback: {
+      type: DataTypes.ARRAY(DataTypes.UUID)
+    },
+    applicationDocuments: {
+      type: DataTypes.ARRAY(DataTypes.UUID)
+    },
+    deletedAt: {
+      type: DataTypes.DATE
+    }
+  }, {sequelize, modelName: "Candidate", timestamps: true});
+};
