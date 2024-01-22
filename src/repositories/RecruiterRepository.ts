@@ -7,6 +7,19 @@ class RecruiterRepository extends BaseRepository<IRecruiter> {
     super(model);
   }
 
+  // async findByEmail(email: string): Promise<T | null> {
+  //   try {
+  //     const document = await this.model.findOne({ where: { email } });
+  //     if (!document) {
+  //       throw new Error(`Email ${email} - Item not found`);
+  //     }
+  //     return document;
+  //   } catch (error) {
+  //     console.error(`Error finding document by email ${email}:`, error);
+  //     throw new Error(`Failed to find item by email ${email}`);
+  //   }
+  // }
+
 }
 
 export default RecruiterRepository;

@@ -48,4 +48,4 @@ export const initApplicationDocuments = (sequelize: Sequelize) => {
   );
 };
 
-export default ApplicationDocuments;
+export { ApplicationDocuments };

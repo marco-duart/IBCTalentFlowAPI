@@ -14,7 +14,7 @@ class ApplicationDocumentsController {
       const createdApplicationDocument = await this.service.create(data);
       res.status(201).json(createdApplicationDocument);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).send("Internal Server Error");
     }
   }
@@ -30,7 +30,7 @@ class ApplicationDocumentsController {
         res.status(404).send("Not found");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).send("Internal Server Error");
     }
   }
@@ -40,12 +40,12 @@ class ApplicationDocumentsController {
       const applicationDocumentsArray = await this.service.getAll();
 
       if (applicationDocumentsArray) {
-        res.status(201).json(applicationDocumentsArray);
+        res.status(200).json(applicationDocumentsArray);
       } else {
         res.status(404).send("Not found");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).send("Internal Server Error");
     }
   }
@@ -57,12 +57,12 @@ class ApplicationDocumentsController {
       const updatedDocument = await this.service.update(id, data);
 
       if (updatedDocument) {
-        res.status(201).json(updatedDocument);
+        res.status(200).json(updatedDocument);
       } else {
         res.status(404).send("Not found");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).send("Internal Server Error");
     }
   }
@@ -73,12 +73,12 @@ class ApplicationDocumentsController {
       const deletedApplicationDocument = await this.service.softDelete(id);
 
       if (deletedApplicationDocument) {
-        res.status(201).json(deletedApplicationDocument);
+        res.status(200).json(deletedApplicationDocument);
       } else {
         res.status(404).send("Not found");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       res.status(500).send("Internal Server Error");
     }
   }
