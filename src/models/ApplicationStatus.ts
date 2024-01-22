@@ -1,25 +1,52 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IApplicationStatus extends Document {
+export interface IApplicationStatus {
   status: string; //(pending, under review, approved, rejected)
-  additionalComments: string;
-  candidate: string
-  hiringProcess: string
-  deletedAt: Date;
+  additionalComments?: string;
+  candidate: string;
+  hiringProcess: string;
+  deletedAt?: Date;
 }
 
-export const ApplicationStatusSchema = new Schema(
-  {
-    status: { type: String, required: true },
-    additionalComments: { type: String },
-    candidate: { type: Schema.Types.ObjectId, ref: "Candidate" },
-    hiringProcess: { type: Schema.Types.ObjectId, ref: "HiringProcess" },
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class ApplicationStatus
+  extends Model<IApplicationStatus>
+  implements IApplicationStatus
+{
+  public status!: string;
+  public additionalComments?: string;
+  public relevantDocuments!: string[];
+  public candidate!: string;
+  public hiringProcess!: string;
+  public deletedAt?: Date;
 
-export const ApplicationStatus = model(
-  "ApplicationStatus",
-  ApplicationStatusSchema
-);
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+export const initApplicationStatus = (sequelize: Sequelize) => {
+  ApplicationStatus.init(
+    {
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      additionalComments: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+      },
+      candidate: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      hiringProcess: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    { sequelize, modelName: "ApplicationStatus", timestamps: true }
+  );
+};
+
+export default ApplicationStatus;
