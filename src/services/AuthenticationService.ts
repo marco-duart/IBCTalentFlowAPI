@@ -3,7 +3,7 @@ import { sign } from "jsonwebtoken"
 
 import UserRepository from "../repositories/UserRepository";
 import { AuthenticationDTO } from "../dto/authenticationDTO";
-import { env } from "../configs/env";
+import { env } from "../config/env";
 
 export class AuthenticationService {
   constructor(private userRepository: UserRepository ) {}
@@ -30,7 +30,7 @@ export class AuthenticationService {
       }
     }
 
-    const payload = { id: user.id, email: user.email }
+    const payload = { id: user.id, email: user.email, role: user.role }
     const secretKey = env.JWT_SECRET_KEY
     const options = { expiresIn: '5h' }
 

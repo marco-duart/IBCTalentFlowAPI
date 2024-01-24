@@ -23,6 +23,7 @@ class HiringProcess extends Model<IHiringProcess> implements IHiringProcess {
   public applicationStatusId?: number[];
   public deletedAt?: Date | undefined;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

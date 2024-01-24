@@ -2,7 +2,6 @@ import { CandidateSchema, ICandidate } from "../models/Candidate";
 import CandidateRepository from "../repositories/CandidateRepository";
 import CandidateService from "../services/CandidateService";
 import CandidateController from "../controllers/CandidateController";
-import { model } from "mongoose";
 
 export class CandidateModule {
   static make() {

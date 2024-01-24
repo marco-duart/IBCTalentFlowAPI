@@ -1,7 +1,6 @@
 import CompanyRepository from '../repositories/CompanyRepository';
 import { UpdateCompanyDTO, CreateCompanyDTO } from '../dto/CompanyDTO';
-import { ICompany } from '../models/Company';
-import { Schema } from 'mongoose';
+import { Company } from '../models/Company';
 
 class CompanyService {
   private repository: CompanyRepository;
@@ -10,24 +9,24 @@ class CompanyService {
     this.repository = repository;
   }
 
-  async create(data: CreateCompanyDTO): Promise<ICompany> {
+  async create(data: CreateCompanyDTO): Promise<Company> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<ICompany[]> {
+  async getAll(): Promise<Company[]> {
     return await this.repository.findAll()
   }
 
-  async getById(id: string): Promise<ICompany | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<Company | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateCompanyDTO): Promise<ICompany | null> {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateCompanyDTO): Promise<Company | null> {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<ICompany | null> {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<Company | null> {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

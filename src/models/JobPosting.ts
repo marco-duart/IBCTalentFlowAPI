@@ -25,6 +25,7 @@ class JobPosting extends Model<IJobPosting> implements IJobPosting {
   public companyId!: number;
   public deletedAt?: Date | undefined;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

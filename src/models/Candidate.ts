@@ -75,6 +75,7 @@ class Candidate extends Model<ICandidate> implements ICandidate {
   public userId!: number;
   public deletedAt?: Date | null;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

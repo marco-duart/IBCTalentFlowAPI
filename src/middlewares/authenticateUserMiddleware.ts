@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
-import { env } from "../configs/env";
+import { env } from "../config/env";
 
 export function authorizationMiddleware(req: Request, res: Response, next: NextFunction) {
   const autorization = req.headers["authorization"];

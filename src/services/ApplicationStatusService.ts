@@ -1,7 +1,6 @@
 import ApplicationStatusRepository from '../repositories/ApplicationStatusRepository';
 import { UpdateApplicationStatusDTO, CreateApplicationStatusDTO } from '../dto/ApplicationStatusDTO';
-import { IApplicationStatus } from '../models/ApplicationStatus';
-import { Schema } from 'mongoose';
+import { ApplicationStatus } from '../models/ApplicationStatus';
 
 class ApplicationStatusService {
   private repository: ApplicationStatusRepository;
@@ -10,24 +9,24 @@ class ApplicationStatusService {
     this.repository = repository;
   }
 
-  async create(data: CreateApplicationStatusDTO): Promise<IApplicationStatus> {
+  async create(data: CreateApplicationStatusDTO): Promise<ApplicationStatus> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<IApplicationStatus[]> {
+  async getAll(): Promise<ApplicationStatus[]> {
     return await this.repository.findAll()
   }
 
-  async getById(id: string): Promise<IApplicationStatus | null > {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<ApplicationStatus | null > {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateApplicationStatusDTO): Promise<IApplicationStatus | null > {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateApplicationStatusDTO): Promise<ApplicationStatus | null > {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<IApplicationStatus | null > {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<ApplicationStatus | null > {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

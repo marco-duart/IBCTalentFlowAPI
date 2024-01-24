@@ -15,6 +15,7 @@ class Notification extends Model<INotification> implements INotification {
   public message!: string;
   public deletedAt?: Date | undefined;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

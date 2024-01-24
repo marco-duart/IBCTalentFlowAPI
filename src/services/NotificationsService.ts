@@ -1,7 +1,6 @@
 import NotificationsRepository from '../repositories/NotificationsRepository';
-import { UpdateNotificationsDTO, CreateNotificationsDTO } from '../dto/NotificationDTO';
-import { INotifications } from '../models/Notification';
-import { Schema } from 'mongoose';
+import { UpdateNotificationDTO, CreateNotificationDTO } from '../dto/NotificationDTO';
+import { Notification } from '../models/Notification';
 
 class NotificationsService {
   private repository: NotificationsRepository;
@@ -10,24 +9,24 @@ class NotificationsService {
     this.repository = repository;
   }
 
-  async create(data: CreateNotificationsDTO): Promise<INotifications> {
+  async create(data: CreateNotificationDTO): Promise<Notification> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<INotifications[]> {
+  async getAll(): Promise<Notification[]> {
     return await this.repository.findAll()
   }
 
-  async getById(id: string): Promise<INotifications | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<Notification | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateNotificationsDTO): Promise<INotifications | null> {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateNotificationDTO): Promise<Notification | null> {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<INotifications | null> {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<Notification | null> {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

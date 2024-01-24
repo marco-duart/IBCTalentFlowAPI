@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { env } from '../config/env';
-import { initApplicationDocuments } from '..//ApplicationDocuments';
+import { initUser } from '../models/User';
 
 export class SequelizeConnection {
   static sequelize = new Sequelize({
@@ -17,8 +17,7 @@ export class SequelizeConnection {
       await this.sequelize.authenticate();
       console.log('Connection to the database has been established successfully.');
 
-      // Inicialize seus modelos aqui
-      initApplicationDocuments(this.sequelize);
+      initUser(this.sequelize);//UserModel
 
       await this.sequelize.sync();
       console.log('Models have been synchronized with the database.');

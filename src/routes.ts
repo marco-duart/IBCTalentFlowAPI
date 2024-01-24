@@ -3,8 +3,8 @@ import express, { Request, Response, Router } from "express";
 
 //SHARED MIDDLEWARES
 import { logMiddleware } from "./middlewares/logMiddleware";
-import { authenticationMiddleware } from "./middlewares/authenticationMiddleware";
-import { authorizationMiddleware } from "./middlewares/authorizationMiddleware";
+import { authenticationMiddleware } from "./middlewares/authenticationValidateMiddleware";
+import { authorizationMiddleware } from "./middlewares/authenticateUserMiddleware";
 
 //SPECIFIC MIDDLEWARES
 import { deleteCandidateMiddleware, getByIdCandidateMiddleware } from "./middlewares/candidateMiddleware";

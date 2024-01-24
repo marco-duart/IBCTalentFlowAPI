@@ -1,7 +1,6 @@
 import InterviewRepository from '../repositories/InterviewRepository';
 import { UpdateInterviewDTO, CreateInterviewDTO } from '../dto/InterviewDTO';
-import { IInterview } from '../models/Interview';
-import { Schema } from 'mongoose';
+import { Interview } from '../models/Interview';
 
 class InterviewService {
   private repository: InterviewRepository;
@@ -10,24 +9,24 @@ class InterviewService {
     this.repository = repository;
   }
 
-  async create(data: CreateInterviewDTO): Promise<IInterview> {
+  async create(data: CreateInterviewDTO): Promise<Interview> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<IInterview[]> {
+  async getAll(): Promise<Interview[]> {
     return await this.repository.findAll()
   }
 
-  async getById(id: string): Promise<IInterview | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<Interview | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateInterviewDTO): Promise<IInterview | null> {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateInterviewDTO): Promise<Interview | null> {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<IInterview | null> {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<Interview | null> {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

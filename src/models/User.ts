@@ -22,6 +22,7 @@ class User extends Model<IUser> implements IUser {
   public candidateId?: number;
   public recruiterId?: number;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

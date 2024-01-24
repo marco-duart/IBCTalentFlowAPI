@@ -29,8 +29,9 @@ class Interview extends Model<IInterview> implements IInterview {
   public recruiterId!: number;
   public deletedAt?: Date | undefined;
 
-  public createdAt!: Date;
-  public updatedAt!: Date;
+  public readonly id!:number;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export const initInterview = (sequelize: Sequelize) => {

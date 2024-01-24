@@ -1,7 +1,6 @@
 import FeedbackRepository from '../repositories/FeedbackRepository';
 import { UpdateFeedbackDTO, CreateFeedbackDTO } from '../dto/FeedbackDTO';
-import { IFeedback } from '../models/Feedback';
-import { Schema } from 'mongoose';
+import { Feedback } from '../models/Feedback';
 
 class FeedbackService {
   private repository: FeedbackRepository;
@@ -10,24 +9,24 @@ class FeedbackService {
     this.repository = repository;
   }
 
-  async create(data: CreateFeedbackDTO): Promise<IFeedback> {
+  async create(data: CreateFeedbackDTO): Promise<Feedback> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<IFeedback[]> {
+  async getAll(): Promise<Feedback[]> {
     return await this.repository.findAll()
   }
 
-  async getById(id: string): Promise<IFeedback | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<Feedback | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateFeedbackDTO): Promise<IFeedback | null> {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateFeedbackDTO): Promise<Feedback | null> {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<IFeedback | null> {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<Feedback | null> {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

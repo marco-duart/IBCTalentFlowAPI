@@ -1,7 +1,6 @@
 import DashboardRepository from '../repositories/DashboardRepository';
 import { UpdateDashboardDTO, CreateDashboardDTO } from '../dto/DashboardDTO';
-import { IDashboard } from '../models/Dashboard';
-import { Schema } from 'mongoose';
+import { Dashboard } from '../models/Dashboard';
 
 class DashboardService {
   private repository: DashboardRepository;
@@ -10,24 +9,24 @@ class DashboardService {
     this.repository = repository;
   }
 
-  async create(data: CreateDashboardDTO): Promise<IDashboard> {
+  async create(data: CreateDashboardDTO): Promise<Dashboard> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<IDashboard[]> {
+  async getAll(): Promise<Dashboard[]> {
     return this.repository.findAll()
   }
 
-  async getById(id: string): Promise<IDashboard | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<Dashboard | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateDashboardDTO): Promise<IDashboard | null> {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateDashboardDTO): Promise<Dashboard | null> {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<IDashboard | null> {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<Dashboard | null> {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

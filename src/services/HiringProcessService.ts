@@ -1,7 +1,6 @@
 import HiringProcessRepository from '../repositories/HiringProcessRepository';
 import { UpdateHiringProcessDTO, CreateHiringProcessDTO } from '../dto/HiringProcessDTO';
-import { IHiringProcess } from '../models/HiringProcess';
-import { Schema } from 'mongoose';
+import { HiringProcess } from '../models/HiringProcess';
 
 class HiringProcessService {
   private repository: HiringProcessRepository;
@@ -10,24 +9,24 @@ class HiringProcessService {
     this.repository = repository;
   }
 
-  async create(data: CreateHiringProcessDTO): Promise<IHiringProcess> {
+  async create(data: CreateHiringProcessDTO): Promise<HiringProcess> {
     return await this.repository.create(data);
   }
 
-  async getAll(): Promise<IHiringProcess[]> {
+  async getAll(): Promise<HiringProcess[]> {
     return await this.repository.findAll()
   }
 
-  async getById(id: string): Promise<IHiringProcess | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<HiringProcess | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: string, data: UpdateHiringProcessDTO): Promise<IHiringProcess | null> {
-    return await this.repository.update(id, data)
+  async update(id: string, data: UpdateHiringProcessDTO): Promise<HiringProcess | null> {
+    return await this.repository.update(parseInt(id), data)
   }
 
-  async softDelete(id: string): Promise<IHiringProcess | null> {
-    return await this.repository.softDelete(id)
+  async softDelete(id: string): Promise<HiringProcess | null> {
+    return await this.repository.softDelete(parseInt(id))
   }
 
 }

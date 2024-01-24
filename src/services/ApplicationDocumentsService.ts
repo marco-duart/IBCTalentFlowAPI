@@ -1,17 +1,12 @@
-import { Sequelize } from 'sequelize';
-import { v4 as uuidv4 } from 'uuid';
-import { ModelStatic } from 'sequelize/types';
 import ApplicationDocumentsRepository from '../repositories/ApplicationDocumentsRepository';
 import { UpdateApplicationDocumentsDTO, CreateApplicationDocumentsDTO } from '../dto/ApplicationDocumentsDTO';
 import { ApplicationDocuments } from '../models/ApplicationDocuments';
 
 class ApplicationDocumentsService {
   private repository: ApplicationDocumentsRepository;
-  private model: ModelStatic<ApplicationDocuments>;
 
-  constructor(repository: ApplicationDocumentsRepository, sequelize: Sequelize) {
+  constructor(repository: ApplicationDocumentsRepository) {
     this.repository = repository;
-    this.model = sequelize.models.ApplicationDocuments as ModelStatic<ApplicationDocuments>;
   }
 
   async create(data: CreateApplicationDocumentsDTO): Promise<ApplicationDocuments> {
@@ -22,16 +17,16 @@ class ApplicationDocumentsService {
     return await this.repository.findAll();
   }
 
-  async getById(id: number): Promise<ApplicationDocuments | null> {
-    return await this.repository.findById(id);
+  async getById(id: string): Promise<ApplicationDocuments | null> {
+    return await this.repository.findById(parseInt(id));
   }
 
-  async update(id: number, data: UpdateApplicationDocumentsDTO): Promise<ApplicationDocuments | null> {
-    return await this.repository.update(id, data);
+  async update(id: string, data: UpdateApplicationDocumentsDTO): Promise<ApplicationDocuments | null> {
+    return await this.repository.update(parseInt(id), data);
   }
 
-  async softDelete(id: number): Promise<ApplicationDocuments | null> {
-    return await this.repository.softDelete(id);
+  async softDelete(id: string): Promise<ApplicationDocuments | null> {
+    return await this.repository.softDelete(parseInt(id));
   }
 }
 

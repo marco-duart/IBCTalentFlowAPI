@@ -19,6 +19,7 @@ class Feedback extends Model<IFeedback> implements IFeedback {
   public hiringProcessId!: number;
   public deletedAt?: Date | undefined;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

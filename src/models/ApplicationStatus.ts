@@ -19,6 +19,7 @@ class ApplicationStatus
   public hiringProcessId!: number;
   public deletedAt?: Date;
 
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

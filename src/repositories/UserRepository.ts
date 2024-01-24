@@ -72,6 +72,32 @@ class UserRepository {
       throw new Error(`Failed to soft delete item with ID ${id}`);
     }
   }
+
+  async findByCpf(cpf: string): Promise<User | null> {
+    try {
+      const existingUser = await this.model.findOne({ where: {cpf: cpf} })
+      if(!existingUser) {
+        throw new Error("Tratar erro")
+      }
+      return existingUser
+    } catch (error) {
+      console.log("Tratar Log")
+      throw new Error("Tratar erro")
+    }
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    try {
+      const existingUser = await this.model.findOne({ where: {email: email} })
+      if(!existingUser) {
+        throw new Error("Tratar erro")
+      }
+      return existingUser
+    } catch (error) {
+      console.log("Tratar Log")
+      throw new Error("Tratar erro")
+    }
+  }
 }
 
 export default UserRepository;

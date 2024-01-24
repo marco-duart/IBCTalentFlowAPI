@@ -18,6 +18,10 @@ class Recruiter extends Model<IRecruiter> implements IRecruiter {
   public hiringProcessesId?: number[];
   public userId!: number;
   public deletedAt?: Date | undefined;
+
+  public readonly id!: number;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export const initRecruiter = (sequelize: Sequelize) => {
