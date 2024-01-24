@@ -1,46 +1,15 @@
-export class CreateApplicationDocumentsDTO {
-  resume?: string;
-  coverLetter: string;
-  relevantDocuments: string[];
-  candidate: string;
-
-  constructor(Data: CreateApplicationDocuments) {
-    this.resume = Data.resume;
-    this.coverLetter = Data.coverLetter;
-    this.relevantDocuments = Data.relevantDocuments;
-    this.candidate = Data.candidate;
-  }
+export interface CreateApplicationDocumentsDTO {
+  resume: string | null | undefined;
+  coverLetter?: string | null;
+  relevantDocuments: string[] | null;
+  candidateId: number | null;
+  deletedAt?: Date | null;
 }
 
-export class UpdateApplicationDocumentsDTO {
-  id: string;
-  resume?: string;
-  coverLetter?: string;
-  relevantDocuments?: string[];
-  candidate?: string;
-
-  constructor(Data: UpdateApplicationDocuments) {
-    this.id = Data.id;
-    this.resume = Data.resume;
-    this.coverLetter = Data.coverLetter;
-    this.relevantDocuments = Data.relevantDocuments;
-    this.candidate = Data.candidate;
-  }
+export interface UpdateApplicationDocumentsDTO {
+  resume?: string | null;
+  coverLetter?: string | null;
+  relevantDocuments?: string[] | null;
+  candidateId?: number | null;
+  deletedAt?: Date | null;
 }
-
-//TYPES
-
-type CreateApplicationDocuments = {
-  resume?: string;
-  coverLetter: string;
-  relevantDocuments: string[];
-  candidate: string;
-};
-
-type UpdateApplicationDocuments = {
-  id: string;
-  resume?: string;
-  coverLetter: string;
-  relevantDocuments: string[];
-  candidate: string;
-};

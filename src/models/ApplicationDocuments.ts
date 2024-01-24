@@ -1,18 +1,18 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-interface IApplicationDocuments {
-  resume: string;
-  coverLetter?: string;
-  relevantDocuments: string[];
-  candidate: string;
-  deletedAt?: Date;
+export interface IApplicationDocuments {
+  resume: string | null | undefined;
+  coverLetter?: string | null;
+  relevantDocuments: string[] | null;
+  candidateId: number | null;
+  deletedAt?: Date | null;
 }
 
 class ApplicationDocuments extends Model<IApplicationDocuments> implements IApplicationDocuments {
   public resume!: string;
   public coverLetter?: string;
   public relevantDocuments!: string[];
-  public candidate!: string;
+  public candidateId!: number;
   public deletedAt?: Date | undefined;
 
   public readonly createdAt!: Date;
@@ -32,8 +32,8 @@ export const initApplicationDocuments = (sequelize: Sequelize) => {
       relevantDocuments: {
         type: DataTypes.ARRAY(DataTypes.STRING),
       },
-      candidate: {
-        type: DataTypes.UUID,
+      candidateId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       deletedAt: {
@@ -44,6 +44,7 @@ export const initApplicationDocuments = (sequelize: Sequelize) => {
       sequelize,
       modelName: 'ApplicationDocuments',
       timestamps: true,
+      paranoid: true,
     }
   );
 };

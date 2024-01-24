@@ -1,5 +1,6 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import { ApplicationDocuments } from '../models/ApplicationDocuments';
+import { CreateApplicationDocumentsDTO, UpdateApplicationDocumentsDTO } from '../dto/ApplicationDocumentsDTO';
 
 class ApplicationDocumentsRepository {
   private model: typeof ApplicationDocuments;
@@ -8,7 +9,7 @@ class ApplicationDocumentsRepository {
     this.model = sequelize.models.ApplicationDocuments as typeof ApplicationDocuments;
   }
 
-  async create(data: Partial<ApplicationDocuments>): Promise<ApplicationDocuments> {
+  async create(data: CreateApplicationDocumentsDTO): Promise<ApplicationDocuments> {
     try {
       const createdDocument = await this.model.create(data);
       return createdDocument;
@@ -18,7 +19,7 @@ class ApplicationDocumentsRepository {
     }
   }
 
-  async findById(id: string): Promise<ApplicationDocuments | null> {
+  async findById(id: number): Promise<ApplicationDocuments | null> {
     try {
       const document = await this.model.findByPk(id);
       return document;
@@ -38,28 +39,42 @@ class ApplicationDocumentsRepository {
     }
   }
 
-  async update(id: string, data: Partial<ApplicationDocuments>): Promise<ApplicationDocuments | null> {
+  async update(id: number, data: UpdateApplicationDocumentsDTO): Promise<ApplicationDocuments | null> {
     try {
-      const updatedDocuments = await this.model.update(data, { where: { id }, returning: true });
-      return updatedDocuments[1][0] || null;
+      const existingDocument = await this.model.findByPk(id);
+  
+      if (!existingDocument) {
+        throw new Error(`Document with ID ${id} not found`);
+      }
+  
+      const updatedDocument = await existingDocument.update(data);
+  
+      return updatedDocument || null;
     } catch (error) {
       console.error(`Error updating document with ID ${id}:`, error);
       throw new Error(`Failed to update item with ID ${id}`);
     }
   }
+  
+  
 
-  async softDelete(id: string): Promise<ApplicationDocuments | null> {
+  async softDelete(id: number): Promise<ApplicationDocuments | null> {
     try {
-      const deletedDocuments = await this.model.update(
-        { deletedAt: new Date() },
-        { where: { id }, returning: true }
-      );
-      return deletedDocuments[1][0] || null;
+      const existingDocument = await this.model.findByPk(id);
+  
+      if (!existingDocument) {
+        throw new Error(`Document with ID ${id} not found`);
+      }
+  
+      await existingDocument.destroy();
+  
+      return existingDocument || null;
     } catch (error) {
       console.error(`Error soft deleting document with ID ${id}:`, error);
       throw new Error(`Failed to soft delete item with ID ${id}`);
     }
   }
+  
 }
 
 export default ApplicationDocumentsRepository;
