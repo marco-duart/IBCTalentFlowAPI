@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from "sequelize"
+import { DataTypes, Model, Sequelize } from "sequelize";
 
 export interface IFeedback {
   feedbackTitle: string | null;
@@ -11,16 +11,16 @@ export interface IFeedback {
 }
 
 class Feedback extends Model<IFeedback> implements IFeedback {
-  public feedbackTitle!: string
-  public overallAssessment!: number
-  public specificComment!: string
-  public improvements?: string
+  public feedbackTitle!: string;
+  public overallAssessment!: number;
+  public specificComment!: string;
+  public improvements?: string;
   public candidateId!: number;
   public hiringProcessId!: number;
-  public deletedAt?: Date | undefined
+  public deletedAt?: Date | undefined;
 
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export const initFeedback = (sequelize: Sequelize) => {
@@ -55,11 +55,11 @@ export const initFeedback = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Feedback',
+      modelName: "Feedback",
       timestamps: true,
       paranoid: true,
     }
-  )
-}
+  );
+};
 
-export { Feedback }
+export { Feedback };

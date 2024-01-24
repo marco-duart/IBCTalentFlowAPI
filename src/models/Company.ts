@@ -81,4 +81,4 @@ export const initCompany = (sequelize: Sequelize) => {
   );
 };
 
-export { Company }
+export { Company };

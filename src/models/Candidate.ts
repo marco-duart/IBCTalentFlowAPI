@@ -22,13 +22,15 @@ export interface ICandidate {
         link: string;
       }[]
     | null;
-  employmentHistory?: {
-    companyName: string
-    position: string
-    startDate: Date
-    endDate?: Date
-    achievements?: string[]
-  }[] | null;
+  employmentHistory?:
+    | {
+        companyName: string;
+        position: string;
+        startDate: Date;
+        endDate?: Date;
+        achievements?: string[];
+      }[]
+    | null;
   applicationStatusId?: number[] | null;
   interviewsId?: number[] | null;
   feedbackId?: number[] | null;
@@ -60,11 +62,11 @@ class Candidate extends Model<ICandidate> implements ICandidate {
       }[]
     | null;
   public employmentHistory?: {
-    companyName: string
-    position: string
-    startDate: Date
-    endDate?: Date
-    achievements?: string[]
+    companyName: string;
+    position: string;
+    startDate: Date;
+    endDate?: Date;
+    achievements?: string[];
   }[];
   public applicationStatusId?: number[] | null;
   public interviewsId?: number[] | null;
@@ -145,3 +147,5 @@ export const initCandidate = (sequelize: Sequelize) => {
     }
   );
 };
+
+export { Candidate };

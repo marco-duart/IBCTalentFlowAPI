@@ -3,10 +3,12 @@ import { DataTypes, Model, Sequelize } from "sequelize";
 export interface IInterview {
   dateTime: Date | null;
   interviewType: string | null; //(in-person, online)
-  questions?: {
-    question: string,
-    answer: string,
-  }[] | null;
+  questions?:
+    | {
+        question: string;
+        answer: string;
+      }[]
+    | null;
   interviewFeedback?: string | null;
   candidateId: number | null;
   hiringProcessId: number | null;
@@ -15,20 +17,20 @@ export interface IInterview {
 }
 
 class Interview extends Model<IInterview> implements IInterview {
-  public dateTime!: Date
-  public interviewType!: string
+  public dateTime!: Date;
+  public interviewType!: string;
   public questions?: {
-    question: string,
-    answer: string,
+    question: string;
+    answer: string;
   }[];
-  public interviewFeedback?: string
-  public candidateId!: number
-  public hiringProcessId!: number
-  public recruiterId!: number
-  public deletedAt?: Date | undefined
+  public interviewFeedback?: string;
+  public candidateId!: number;
+  public hiringProcessId!: number;
+  public recruiterId!: number;
+  public deletedAt?: Date | undefined;
 
-  public createdAt!: Date
-  public updatedAt!: Date
+  public createdAt!: Date;
+  public updatedAt!: Date;
 }
 
 export const initInterview = (sequelize: Sequelize) => {
@@ -62,11 +64,11 @@ export const initInterview = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Interview',
+      modelName: "Interview",
       timestamps: true,
       paranoid: true,
     }
   );
-}
+};
 
-export { Interview }
+export { Interview };

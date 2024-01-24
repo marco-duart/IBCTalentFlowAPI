@@ -3,7 +3,7 @@ import NotificationsService from "../services/NotificationsService";
 import {
   UpdateNotificationsDTO,
   CreateNotificationsDTO,
-} from "../dto/NotificationsDTO";
+} from "../dto/NotificationDTO";
 
 class NotificationsController {
   constructor(private service: NotificationsService) {}

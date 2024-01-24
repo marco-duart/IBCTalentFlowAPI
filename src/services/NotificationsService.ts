@@ -1,5 +1,5 @@
 import NotificationsRepository from '../repositories/NotificationsRepository';
-import { UpdateNotificationsDTO, CreateNotificationsDTO } from '../dto/NotificationsDTO';
+import { UpdateNotificationsDTO, CreateNotificationsDTO } from '../dto/NotificationDTO';
 import { INotifications } from '../models/Notification';
 import { Schema } from 'mongoose';
 

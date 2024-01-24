@@ -1,5 +1,5 @@
 export interface CreateFeedbackDTO {
-  feedbackTitle: Date;
+  feedbackTitle: string;
   overallAssessment: number;
   specificComment: string;
   improvements?: string;
@@ -8,7 +8,7 @@ export interface CreateFeedbackDTO {
 }
 
 export interface UpdateFeedbackDTO {
-  feedbackTitle?: Date;
+  feedbackTitle?: string;
   overallAssessment?: number;
   specificComment?: string;
   improvements?: string;

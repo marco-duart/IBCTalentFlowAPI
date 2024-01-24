@@ -1,11 +1,10 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 
-
-type Role = "ti" | "admin" | "user"
+type Role = "ti" | "admin" | "user";
 
 export interface IUser {
   name: string | null;
-  cpf: string | null
+  cpf: string | null;
   email: string | null;
   password: string | null;
   role: Role | null;
@@ -15,16 +14,16 @@ export interface IUser {
 }
 
 class User extends Model<IUser> implements IUser {
-  public name!: string
-  public cpf!: string
-  public email!: string
-  public password!: string
-  public role!: Role
-  public candidateId?: number
-  public recruiterId?: number
+  public name!: string;
+  public cpf!: string;
+  public email!: string;
+  public password!: string;
+  public role!: Role;
+  public candidateId?: number;
+  public recruiterId?: number;
 
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export const initUser = (sequelize: Sequelize) => {
@@ -62,9 +61,11 @@ export const initUser = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'User',
+      modelName: "User",
       timestamps: true,
       paranoid: true,
     }
   );
-}
+};
+
+export { User };

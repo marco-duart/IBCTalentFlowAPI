@@ -1,11 +1,11 @@
-export interface CreateNotificationsDTO {
+export interface CreateNotificationDTO {
   title: string
   notificationType: string;
   recipient: string;
   message: string;
 }
 
-export interface UpdateNotificationsDTO {
+export interface UpdateNotificationDTO {
   notificationType?: string;
   recipient?: string;
   message?: string;

@@ -51,4 +51,4 @@ export const initDashboard = (sequelize: Sequelize) => {
   );
 };
 
-export { Dashboard }
+export { Dashboard };

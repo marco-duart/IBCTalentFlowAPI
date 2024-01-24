@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model, Sequelize } from "sequelize";
 
 export interface IApplicationDocuments {
   resume: string | null | undefined;
@@ -8,7 +8,10 @@ export interface IApplicationDocuments {
   deletedAt?: Date | null;
 }
 
-class ApplicationDocuments extends Model<IApplicationDocuments> implements IApplicationDocuments {
+class ApplicationDocuments
+  extends Model<IApplicationDocuments>
+  implements IApplicationDocuments
+{
   public resume!: string;
   public coverLetter?: string;
   public relevantDocuments!: string[];
@@ -42,7 +45,7 @@ export const initApplicationDocuments = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'ApplicationDocuments',
+      modelName: "ApplicationDocuments",
       timestamps: true,
       paranoid: true,
     }

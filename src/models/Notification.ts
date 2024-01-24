@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 
 export interface INotification {
-  title: string
+  title: string;
   notificationType: string | null; //(scheduled interview, status update, etc.)
   recipient: string | null; //admins, users, all, maybe change type to number(to be id an id?)
   message: string | null;
@@ -9,14 +9,14 @@ export interface INotification {
 }
 
 class Notification extends Model<INotification> implements INotification {
-  public title!: string; 
-  public notificationType!: string
-  public recipient!: string
-  public message!: string
-  public deletedAt?: Date | undefined
+  public title!: string;
+  public notificationType!: string;
+  public recipient!: string;
+  public message!: string;
+  public deletedAt?: Date | undefined;
 
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 export const initNotification = (sequelize: Sequelize) => {
@@ -44,9 +44,11 @@ export const initNotification = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Notification',
+      modelName: "Notification",
       timestamps: true,
       paranoid: true,
     }
   );
-}
+};
+
+export { Notification };

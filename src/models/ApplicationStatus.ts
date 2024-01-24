@@ -45,8 +45,13 @@ export const initApplicationStatus = (sequelize: Sequelize) => {
         type: DataTypes.DATE,
       },
     },
-    { sequelize, modelName: "ApplicationStatus", timestamps: true, paranoid: true }
+    {
+      sequelize,
+      modelName: "ApplicationStatus",
+      timestamps: true,
+      paranoid: true,
+    }
   );
 };
 
-export default ApplicationStatus;
+export { ApplicationStatus };

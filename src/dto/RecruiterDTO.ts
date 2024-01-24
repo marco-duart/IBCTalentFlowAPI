@@ -3,7 +3,7 @@ export interface CreateRecruiterDTO {
   email: string;
   position: string;
   interviewsId: number[];
-  hiringProcessesId: string[];
+  hiringProcessesId: number[];
   userId: number;
 }
 
