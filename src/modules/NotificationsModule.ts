@@ -1,4 +1,4 @@
-import { NotificationsSchema, INotifications } from "../models/Notifications";
+import { NotificationsSchema, INotifications } from "../models/Notification";
 import NotificationsRepository from "../repositories/NotificationsRepository";
 import NotificationsService from "../services/NotificationsService";
 import NotificationsController from "../controllers/NotificationsController";

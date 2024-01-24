@@ -1,11 +1,30 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface ICompany extends Document {
-  companyName: string;
-  sector: string;
-  companySize: number;
-  companyLocation: string;
-  contactInformation: {
+export interface ICompany {
+  companyName: string | null;
+  cnpj: string | null;
+  sector: string | null;
+  companySize: number | null;
+  companyLocation: string | null;
+  contactInformation?: {
+    phoneNumber: string[];
+    email: string[];
+    companyLinks: {
+      title: string;
+      link: string;
+    }[];
+  } | null;
+  jobPostingsIdId?: string | null;
+  deletedAt?: Date | null;
+}
+
+class Company extends Model<ICompany> implements ICompany {
+  public companyName!: string;
+  public cnpj!: string;
+  public sector!: string;
+  public companySize!: number;
+  public companyLocation!: string;
+  public contactInformation?: {
     phoneNumber: string[];
     email: string[];
     companyLinks: {
@@ -13,26 +32,53 @@ export interface ICompany extends Document {
       link: string;
     }[];
   };
-  jobPostings: string;
-  deletedAt: Date;
+  public jobPostingsIdId?: string;
+  public deletedAt?: Date | undefined;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
-export const CompanySchema = new Schema(
-  {
-    companyName: { type: String, required: true },
-    sector: { type: String, required: true },
-    companySize: { type: Number, required: true },
-    companyLocation: { type: String, required: true },
-    contactInformation: [
-      {
-        title: { type: String },
-        link: { type: String },
+export const initCompany = (sequelize: Sequelize) => {
+  Company.init(
+    {
+      companyName: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
-    ],
-    jobPostings: [{ type: Schema.Types.ObjectId, ref: "JobPosting" }],
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+      cnpj: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      sector: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      companySize: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        allowNull: false,
+      },
+      companyLocation: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false,
+      },
+      contactInformation: {
+        type: DataTypes.ARRAY(DataTypes.JSONB),
+      },
+      jobPostingsIdId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Company",
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+};
 
-export const Company = model("Company", CompanySchema);
+export { Company }

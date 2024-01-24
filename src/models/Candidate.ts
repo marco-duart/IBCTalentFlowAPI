@@ -1,9 +1,11 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model, Sequelize } from "sequelize";
 
 export interface ICandidate {
-  name: string;
-  email: string;
-  phoneNumber: string;
+  name: string | null;
+  email: string | null;
+  phoneNumber1: string | null;
+  phoneNumber2?: string | null;
+  employee: boolean | null;
   resume?: string | null;
   portfolio?: string | null;
   academicHistory: {
@@ -14,22 +16,33 @@ export interface ICandidate {
     endDate: Date;
   }[];
   skills?: string[] | null;
-  professionalLinks?: {
-    title: string;
-    link: string;
+  professionalLinks?:
+    | {
+        title: string;
+        link: string;
+      }[]
+    | null;
+  employmentHistory?: {
+    companyName: string
+    position: string
+    startDate: Date
+    endDate?: Date
+    achievements?: string[]
   }[] | null;
-  employmentHistory?: string | null;
-  applicationStatus?: string[] | null;
-  interviews?: string[] | null;
-  feedback?: string[] | null;
-  applicationDocuments?: string[] | null;
+  applicationStatusId?: number[] | null;
+  interviewsId?: number[] | null;
+  feedbackId?: number[] | null;
+  applicationDocumentsId?: number[] | null;
+  userId: number | null;
   deletedAt?: Date | null;
 }
 
 class Candidate extends Model<ICandidate> implements ICandidate {
   public name!: string;
   public email!: string;
-  public phoneNumber!: string;
+  public phoneNumber1!: string;
+  public phoneNumber2?: string;
+  public employee!: boolean;
   public resume?: string | null;
   public portfolio?: string | null;
   public academicHistory!: {
@@ -40,15 +53,24 @@ class Candidate extends Model<ICandidate> implements ICandidate {
     endDate: Date;
   }[];
   public skills?: string[] | null;
-  public professionalLinks?: {
-    title: string;
-    link: string;
-  }[] | null;
-  public employmentHistory?: string | null;
-  public applicationStatus?: string[] | null;
-  public interviews?: string[] | null;
-  public feedback?: string[] | null;
-  public applicationDocuments?: string[] | null;
+  public professionalLinks?:
+    | {
+        title: string;
+        link: string;
+      }[]
+    | null;
+  public employmentHistory?: {
+    companyName: string
+    position: string
+    startDate: Date
+    endDate?: Date
+    achievements?: string[]
+  }[];
+  public applicationStatusId?: number[] | null;
+  public interviewsId?: number[] | null;
+  public feedbackId?: number[] | null;
+  public applicationDocumentsId?: number[] | null;
+  public userId!: number;
   public deletedAt?: Date | null;
 
   public readonly createdAt!: Date;
@@ -66,7 +88,17 @@ export const initCandidate = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      phoneNumber: { type: DataTypes.STRING, allowNull: false },
+      phoneNumber1: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phoneNumber2: {
+        type: DataTypes.STRING,
+      },
+      employee: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
       resume: {
         type: DataTypes.STRING,
       },
@@ -83,27 +115,31 @@ export const initCandidate = (sequelize: Sequelize) => {
         type: DataTypes.ARRAY(DataTypes.JSONB),
       },
       employmentHistory: {
-        type: DataTypes.UUID
+        type: DataTypes.ARRAY(DataTypes.JSONB),
       },
-      applicationStatus: {
-        type: DataTypes.ARRAY(DataTypes.UUID)
+      applicationStatusId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
-      interviews: {
-        type: DataTypes.ARRAY(DataTypes.UUID)
+      interviewsId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
-      feedback: {
-        type: DataTypes.ARRAY(DataTypes.UUID)
+      feedbackId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
-      applicationDocuments: {
-        type: DataTypes.ARRAY(DataTypes.UUID)
+      applicationDocumentsId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       deletedAt: {
-        type: DataTypes.DATE
-      }
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,
-      modelName: 'Candidate',
+      modelName: "Candidate",
       timestamps: true,
       paranoid: true,
     }

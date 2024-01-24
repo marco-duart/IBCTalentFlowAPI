@@ -1,27 +1,57 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IEmploymentHistory extends Document {
-  companyName: string;
-  position: string;
-  startDate: Date;
-  endDate: Date;
-  achievements: string;
-  deletedAt: Date;
+export interface IEmploymentHistory {
+  companyName: string | null;
+  position: string | null;
+  startDate: Date | null;
+  endDate?: Date | null;
+  achievements?: string[] | null;
+  deletedAt?: Date | null;
 }
 
-export const EmploymentHistorySchema = new Schema(
-  {
-    companyName: { type: String, required: true },
-    position: { type: String, required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
-    achievements: { type: String, required: true },
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class EmploymentHistory extends Model<IEmploymentHistory> implements IEmploymentHistory {
+  public companyName!: string
+  public position!: string
+  public startDate!: Date
+  public endDate?: Date
+  public achievements?: string[]
+  public deletedAt?: Date | null
 
-export const EmploymentHistory = model(
-  "EmploymentHistory",
-  EmploymentHistorySchema
-);
+  public readonly createdAt!: Date
+  public readonly updatedAt!: Date
+}
+
+export const initEmploymentHistory = (sequelize: Sequelize) => {
+  EmploymentHistory.init({
+    companyName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    position: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    endDate: {
+      type: DataTypes.DATE,
+    },
+    achievements: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+    },
+  }, 
+  {
+    sequelize,
+    modelName: 'EmploymentHistory',
+    timestamps: true,
+    paranoid: true,
+  })
+}
+
+export { EmploymentHistory }

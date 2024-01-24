@@ -1,35 +1,71 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IHiringProcess extends Document {
-  startDate: Date;
-  endDate: Date;
-  stage: string; //(interviews, tests, etc.)
-  recruiter: string;
-  status: string; //(open, in progress, closed)
-  interviews: string[];
-  applicationStatus: string[];
-  recruiters: string[];
-  deletedAt: Date;
+export interface IHiringProcess {
+  startDate: Date | null;
+  endDate?: Date | null;
+  stage: string | null; //(interviews, tests, etc.)
+  status: string | null; //(open, in progress, closed)
+  recruiterId: number | null;
+  interviewsId?: number[] | null;
+  candidatesId?: number[] | null;
+  applicationStatusId?: number[] | null;
+  deletedAt?: Date | null;
 }
 
-export const HiringProcessSchema = new Schema(
-  {
-    startDate: { type: Date, required: true },
-    endDate: { type: Date },
-    stage: { type: String, required: true }, // (interviews, tests, etc.)
-    status: {
-      type: String,
-      enum: ["open", "in progress", "closed"],
-      required: true,
-    },
-    interviews: [{ type: Schema.Types.ObjectId, ref: "Interview" }],
-    applicationStatus: [
-      { type: Schema.Types.ObjectId, ref: "ApplicationStatus" },
-    ],
-    recruiters: [{ type: Schema.Types.ObjectId, ref: "Recruiter" }],
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class HiringProcess extends Model<IHiringProcess> implements IHiringProcess {
+  public startDate!: Date;
+  public endDate?: Date;
+  public stage!: string;
+  public status!: string;
+  public recruiterId!: number;
+  public interviewsId?: number[];
+  public candidatesId?: number[];
+  public applicationStatusId?: number[];
+  public deletedAt?: Date | undefined;
 
-export const HiringProcess = model("HiringProcess", HiringProcessSchema);
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+export const initHiringProcess = (sequelize: Sequelize) => {
+  HiringProcess.init(
+    {
+      startDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      endDate: {
+        type: DataTypes.DATE,
+      },
+      stage: {
+        type: DataTypes.STRING,
+      },
+      status: {
+        type: DataTypes.STRING,
+      },
+      recruiterId: {
+        type: DataTypes.INTEGER,
+      },
+      interviewsId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
+      candidatesId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
+      applicationStatusId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: "HiringProcess",
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+};
+
+export { HiringProcess };

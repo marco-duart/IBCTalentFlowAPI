@@ -1,42 +1,72 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IInterview extends Document {
-  dateTime: Date;
-  interviewType: string; //(in-person, online)
-  interviewer: {
-    name: string;
-    position: string;
-  };
-  questions: string[];
-  answers: string[];
-  interviewFeedback: string;
-  candidate: string;
-  hiringProcess: string;
-  recruiter: string;
-  deletedAt: Date;
+export interface IInterview {
+  dateTime: Date | null;
+  interviewType: string | null; //(in-person, online)
+  questions?: {
+    question: string,
+    answer: string,
+  }[] | null;
+  interviewFeedback?: string | null;
+  candidateId: number | null;
+  hiringProcessId: number | null;
+  recruiterId: number | null;
+  deletedAt?: Date | null;
 }
 
-export const InterviewSchema = new Schema(
-  {
-    dateTime: { type: Date, required: true },
-    interviewType: { type: String, required: true },
-    interviewer: {
-      name: { type: String, required: true },
-      position: { type: String, required: true },
-    },
-    questions: [
-      {
-        question: { type: String, required: true },
-        answer: { type: String, required: true },
-      },
-    ],
-    interviewFeedback: { type: String, required: true },
-    candidate: { type: Schema.Types.ObjectId, ref: "Candidate" },
-    hiringProcess: { type: Schema.Types.ObjectId, ref: "HiringProcess" },
-    recruiter: { type: Schema.Types.ObjectId, ref: "Recruiter" },
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class Interview extends Model<IInterview> implements IInterview {
+  public dateTime!: Date
+  public interviewType!: string
+  public questions?: {
+    question: string,
+    answer: string,
+  }[];
+  public interviewFeedback?: string
+  public candidateId!: number
+  public hiringProcessId!: number
+  public recruiterId!: number
+  public deletedAt?: Date | undefined
 
-export const Interview = model("Interview", InterviewSchema);
+  public createdAt!: Date
+  public updatedAt!: Date
+}
+
+export const initInterview = (sequelize: Sequelize) => {
+  Interview.init(
+    {
+      dateTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      interviewType: {
+        type: DataTypes.STRING,
+      },
+      questions: {
+        type: DataTypes.ARRAY(DataTypes.JSONB),
+      },
+      interviewFeedback: {
+        type: DataTypes.STRING,
+      },
+      candidateId: {
+        type: DataTypes.INTEGER,
+      },
+      hiringProcessId: {
+        type: DataTypes.INTEGER,
+      },
+      recruiterId: {
+        type: DataTypes.INTEGER,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Interview',
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+}
+
+export { Interview }

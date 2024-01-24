@@ -1,22 +1,54 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IDashboard extends Document {
-  overview: string;
-  statistics: string;
-  permissions: string;
-  reporting: string;
-  deletedAt: Date;
+export interface IDashboard {
+  overview: string | null;
+  statistics: string | null;
+  permissions: string | null;
+  reporting: string | null;
+  deletedAt?: Date | null;
 }
 
-export const DashboardSchema = new Schema(
-  {
-    overview: { type: String, required: true },
-    statistics: { type: String, required: true },
-    permissions: { type: String, required: true },
-    reporting: { type: String, required: true },
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class Dashboard extends Model<IDashboard> implements IDashboard {
+  public overview!: string;
+  public statistics!: string;
+  public permissions!: string;
+  public reporting!: string;
+  public deletedAt?: Date | undefined;
 
-export const Dashboard = model("Dashboard", DashboardSchema);
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+export const initDashboard = (sequelize: Sequelize) => {
+  Dashboard.init(
+    {
+      overview: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      statistics: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      permissions: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      reporting: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Dashboard",
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+};
+
+export { Dashboard }

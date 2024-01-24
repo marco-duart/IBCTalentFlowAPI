@@ -1,24 +1,70 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  type: "Candidate" | "Recruiter";
-  profile: string;
-  deletedAt: Date;
+
+type Role = "ti" | "admin" | "user"
+
+export interface IUser {
+  name: string | null;
+  cpf: string | null
+  email: string | null;
+  password: string | null;
+  role: Role | null;
+  candidateId?: number | null;
+  recruiterId?: number | null;
+  deletedAt?: Date | null;
 }
 
-export const UserSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, minLength: 8 },
-    type: { type: String, required: true },
-    profile: { type: Schema.Types.ObjectId, refPath: "type" },
-    deletedAt: { type: Date },
-  },
-  { timestamps: true }
-);
+class User extends Model<IUser> implements IUser {
+  public name!: string
+  public cpf!: string
+  public email!: string
+  public password!: string
+  public role!: Role
+  public candidateId?: number
+  public recruiterId?: number
 
-export const User = model("User", UserSchema);
+  public readonly createdAt!: Date
+  public readonly updatedAt!: Date
+}
+
+export const initUser = (sequelize: Sequelize) => {
+  User.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      cpf: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      candidateId: {
+        type: DataTypes.INTEGER,
+      },
+      recruiterId: {
+        type: DataTypes.INTEGER,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'User',
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+}

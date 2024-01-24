@@ -1,46 +1,61 @@
-import { Schema, model, Document } from "mongoose";
+import { DataTypes, Model, Sequelize } from "sequelize";
 
-export interface IRecruiter extends Document {
-  name: string;
-  email: string;
-  position: string;
-  contactInformation: {
-    phoneNumber: string[];
-    email: string[];
-    companyLinks: {
-      title: string;
-      link: string;
-    }[];
-  };
-  assignedCandidateList: string[];
-  candidateFeedback: string[];
-  interviews: string[];
-  hiringProcesses: string[];
-  deletedAt: Date;
+export interface IRecruiter {
+  name: string | null;
+  email: string | null;
+  position?: string | null;
+  interviewsId?: number[] | null;
+  hiringProcessesId?: number[] | null;
+  userId: number | null;
+  deletedAt?: Date | null;
 }
 
-export const RecruiterSchema = new Schema(
-  {
-    name: { type: String, required: true, minLength: 3 },
-    email: { type: String, required: true, unique: true },
-    position: { type: String, required: true },
-    contactInformation: {
-      phoneNumber: [{ type: String, required: true }],
-      email: [{ type: String, required: true }],
-      companyLinks: [
-        {
-          title: { type: String, required: true },
-          link: { type: String, required: true },
-        },
-      ],
-    },
-    assignedCandidateList: [{ type: Schema.Types.ObjectId, ref: "Candidate" }],
-    candidateFeedback: [{ type: Schema.Types.ObjectId, ref: "Feedback" }],
-    interviews: [{ type: Schema.Types.ObjectId, ref: "Interview" }],
-    hiringProcesses: [{ type: Schema.Types.ObjectId, ref: "HiringProcess" }],
-    deletedAt: { type: Date},
-  },
-  { timestamps: true }
-);
+class Recruiter extends Model<IRecruiter> implements IRecruiter {
+  public name!: string;
+  public email!: string;
+  public position?: string;
+  public interviewsId?: number[];
+  public hiringProcessesId?: number[];
+  public userId!: number;
+  public deletedAt?: Date | undefined;
+}
 
-export const Recruiter = model("Recruiter", RecruiterSchema);
+export const initRecruiter = (sequelize: Sequelize) => {
+  Recruiter.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      position: {
+        type: DataTypes.STRING,
+      },
+      interviewsId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        allowNull: false,
+      },
+      hiringProcessesId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: "Recruiter",
+      timestamps: true,
+      paranoid: true,
+    }
+  );
+};
+
+export { Recruiter };

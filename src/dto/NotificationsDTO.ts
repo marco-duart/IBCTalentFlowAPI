@@ -1,46 +1,13 @@
-export class CreateNotificationsDTO {
+export interface CreateNotificationsDTO {
+  title: string
   notificationType: string;
   recipient: string;
   message: string;
-  dateTime: Date;
-
-  constructor(Data: CreateNotifications) {
-    this.notificationType = Data.notificationType;
-    this.recipient = Data.recipient;
-    this.message = Data.message;
-    this.dateTime = Data.dateTime;
-  }
 }
 
-export class UpdateNotificationsDTO {
-  id: string;
-  notificationType: string;
-  recipient: string;
-  message: string;
-  dateTime: Date;
-
-  constructor(Data: UpdateNotifications) {
-    this.id = Data.id;
-    this.notificationType = Data.notificationType;
-    this.recipient = Data.recipient;
-    this.message = Data.message;
-    this.dateTime = Data.dateTime;
-  }
+export interface UpdateNotificationsDTO {
+  notificationType?: string;
+  recipient?: string;
+  message?: string;
+  dateTime?: Date;
 }
-
-//TYPES
-
-type CreateNotifications = {
-  notificationType: string;
-  recipient: string;
-  message: string;
-  dateTime: Date;
-};
-
-type UpdateNotifications = {
-  id: string;
-  notificationType: string;
-  recipient: string;
-  message: string;
-  dateTime: Date;
-};

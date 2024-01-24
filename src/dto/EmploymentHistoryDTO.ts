@@ -1,4 +1,4 @@
-export class CreateEmploymentHistoryDTO {
+export interface CreateEmploymentHistoryDTO {
   companyName: string;
   position: string;
   startDate: Date;
@@ -14,7 +14,7 @@ export class CreateEmploymentHistoryDTO {
   }
 }
 
-export class UpdateEmploymentHistoryDTO {
+export interface UpdateEmploymentHistoryDTO {
   id: string;
   companyName: string;
   position: string;

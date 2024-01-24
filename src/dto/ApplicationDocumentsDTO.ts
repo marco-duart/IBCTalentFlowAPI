@@ -1,15 +1,15 @@
 export interface CreateApplicationDocumentsDTO {
   resume: string | null | undefined;
-  coverLetter?: string | null;
-  relevantDocuments: string[] | null;
-  candidateId: number | null;
-  deletedAt?: Date | null;
+  coverLetter?: string;
+  relevantDocuments: string[];
+  candidateId: number;
+  deletedAt?: Date;
 }
 
 export interface UpdateApplicationDocumentsDTO {
-  resume?: string | null;
-  coverLetter?: string | null;
-  relevantDocuments?: string[] | null;
-  candidateId?: number | null;
-  deletedAt?: Date | null;
+  resume?: string;
+  coverLetter?: string;
+  relevantDocuments?: string[];
+  candidateId?: number;
+  deletedAt?: Date;
 }

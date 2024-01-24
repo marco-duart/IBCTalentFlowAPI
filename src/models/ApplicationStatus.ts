@@ -3,8 +3,8 @@ import { DataTypes, Model, Sequelize } from "sequelize";
 export interface IApplicationStatus {
   status: string; //(pending, under review, approved, rejected)
   additionalComments?: string;
-  candidate: string;
-  hiringProcess: string;
+  candidateId: number;
+  hiringProcessId: number;
   deletedAt?: Date;
 }
 
@@ -15,8 +15,8 @@ class ApplicationStatus
   public status!: string;
   public additionalComments?: string;
   public relevantDocuments!: string[];
-  public candidate!: string;
-  public hiringProcess!: string;
+  public candidateId!: number;
+  public hiringProcessId!: number;
   public deletedAt?: Date;
 
   public readonly createdAt!: Date;
@@ -33,19 +33,19 @@ export const initApplicationStatus = (sequelize: Sequelize) => {
       additionalComments: {
         type: DataTypes.ARRAY(DataTypes.STRING),
       },
-      candidate: {
-        type: DataTypes.UUID,
+      candidateId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      hiringProcess: {
-        type: DataTypes.UUID,
+      hiringProcessId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       deletedAt: {
         type: DataTypes.DATE,
       },
     },
-    { sequelize, modelName: "ApplicationStatus", timestamps: true }
+    { sequelize, modelName: "ApplicationStatus", timestamps: true, paranoid: true }
   );
 };
 

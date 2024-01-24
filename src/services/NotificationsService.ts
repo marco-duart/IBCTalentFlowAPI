@@ -1,6 +1,6 @@
 import NotificationsRepository from '../repositories/NotificationsRepository';
 import { UpdateNotificationsDTO, CreateNotificationsDTO } from '../dto/NotificationsDTO';
-import { INotifications } from '../models/Notifications';
+import { INotifications } from '../models/Notification';
 import { Schema } from 'mongoose';
 
 class NotificationsService {
