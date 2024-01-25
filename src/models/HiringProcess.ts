@@ -1,4 +1,8 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { ApplicationStatus } from "./ApplicationStatus";
+import { Interview } from "./Interview";
+import { Recruiter } from "./Recruiter";
+import { JobPosting } from "./JobPosting";
 
 export interface IHiringProcess {
   startDate: Date | null;
@@ -6,9 +10,9 @@ export interface IHiringProcess {
   stage: string | null; //(interviews, tests, etc.)
   status: string | null; //(open, in progress, closed)
   recruiterId: number | null;
-  interviewsId?: number[] | null;
-  candidatesId?: number[] | null;
-  applicationStatusId?: number[] | null;
+  jobPostingId: number | null;
+  interviewIds?: number[] | null;
+  applicationStatusIds?: number[] | null;
   deletedAt?: Date | null;
 }
 
@@ -18,9 +22,9 @@ class HiringProcess extends Model<IHiringProcess> implements IHiringProcess {
   public stage!: string;
   public status!: string;
   public recruiterId!: number;
-  public interviewsId?: number[];
-  public candidatesId?: number[];
-  public applicationStatusId?: number[];
+  public jobPostingId!: number;
+  public interviewIds?: number[];
+  public applicationStatusIds?: number[];
   public deletedAt?: Date | undefined;
 
   public readonly id!: number;
@@ -46,14 +50,16 @@ export const initHiringProcess = (sequelize: Sequelize) => {
       },
       recruiterId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
       },
-      interviewsId: {
+      jobPostingId: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        allowNull: false,
+      },
+      interviewIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
-      candidatesId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-      },
-      applicationStatusId: {
+      applicationStatusIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       deletedAt: {
@@ -67,6 +73,32 @@ export const initHiringProcess = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  HiringProcess.belongsTo(Recruiter, {
+    foreignKey: "recruiterId",
+    targetKey: "id",
+    as: "hiringProcesses",
+  });
+
+  HiringProcess.belongsTo(JobPosting, {
+    foreignKey: "jobPostingId",
+    targetKey: "id",
+    as: "hiringProcesses",
+  });
+
+  HiringProcess.hasMany(ApplicationStatus, {
+    foreignKey: "hiringProcessId",
+    as: "applications",
+    onDelete: "SET NULL",
+    onUpdate: "CASCADE",
+  });
+
+  HiringProcess.hasMany(Interview, {
+    foreignKey: "hiringProcessId",
+    as: "interviews",
+    onDelete: "SET NULL",
+    onUpdate: "CASCADE",
+  });
 };
 
 export { HiringProcess };

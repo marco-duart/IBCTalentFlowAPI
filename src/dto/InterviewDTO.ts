@@ -6,7 +6,7 @@ export interface CreateInterviewDTO {
     answer: string,
   }[];
   interviewFeedback?: string;
-  candidateId: number;
+  applicationStatusId: number;
   hiringProcessId: number;
   recruiterId: number;
 }

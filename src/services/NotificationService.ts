@@ -1,8 +1,8 @@
-import NotificationsRepository from '../repositories/NotificationsRepository';
+import NotificationsRepository from '../repositories/NotificationRepository';
 import { UpdateNotificationDTO, CreateNotificationDTO } from '../dto/NotificationDTO';
 import { Notification } from '../models/Notification';
 
-class NotificationsService {
+class NotificationService {
   private repository: NotificationsRepository;
 
   constructor(repository: NotificationsRepository) {
@@ -31,4 +31,4 @@ class NotificationsService {
 
 }
 
-export default NotificationsService;
+export default NotificationService;

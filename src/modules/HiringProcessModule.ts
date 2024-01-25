@@ -1,16 +1,18 @@
-import { HiringProcessSchema, IHiringProcess } from "../models/HiringProcess";
-import HiringProcessRepository from "../repositories/HiringProcessRepository";
-import HiringProcessService from "../services/HiringProcessService";
-import HiringProcessController from "../controllers/HiringProcessController";
-import { model } from "mongoose";
+import { Sequelize } from 'sequelize';
+import HiringProcessRepository from '../repositories/HiringProcessRepository';
+import HiringProcessService from '../services/HiringProcessService';
+import HiringProcessController from '../controllers/HiringProcessController';
+import { SequelizeConnection } from '../database/connection';
 
-export class HiringProcessModule {
+class HiringProcessModule {
   static make() {
-    const HiringProcessModel = model<IHiringProcess>('HiringProcess', HiringProcessSchema);
-    const repository = new HiringProcessRepository(HiringProcessModel)
-    const service = new HiringProcessService(repository)
-    const controller = new HiringProcessController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new HiringProcessRepository(sequelize);
+    const service = new HiringProcessService(repository);
+    const controller = new HiringProcessController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { HiringProcessModule };

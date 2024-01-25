@@ -1,5 +1,17 @@
 import { Sequelize } from 'sequelize';
 import { env } from '../config/env';
+
+//MODEL INIT IMPORTS
+import { initApplicationStatus } from '../models/ApplicationStatus';
+import { initCandidate } from '../models/Candidate';
+import { initCompany } from '../models/Company';
+import { initDashboard } from '../models/Dashboard';
+import { initFeedback } from '../models/Feedback';
+import { initHiringProcess } from '../models/HiringProcess';
+import { initInterview } from '../models/Interview';
+import { initJobPosting } from '../models/JobPosting';
+import { initNotification } from '../models/Notification';
+import { initRecruiter } from '../models/Recruiter';
 import { initUser } from '../models/User';
 
 class SequelizeConnection {
@@ -25,6 +37,17 @@ class SequelizeConnection {
     });
 
     this.authenticate();
+    //MODELS INITIALIZE
+    initApplicationStatus(this._sequelize);
+    initCandidate(this._sequelize);
+    initCompany(this._sequelize);
+    initDashboard(this._sequelize);
+    initFeedback(this._sequelize);
+    initHiringProcess(this._sequelize);
+    initInterview(this._sequelize);
+    initJobPosting(this._sequelize);
+    initNotification(this._sequelize);
+    initRecruiter(this._sequelize);
     initUser(this._sequelize);
   }
 

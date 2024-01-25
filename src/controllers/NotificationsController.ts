@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import NotificationsService from "../services/NotificationsService";
+import NotificationsService from "../services/NotificationService";
 import {
-  UpdateNotificationsDTO,
-  CreateNotificationsDTO,
+  UpdateNotificationDTO,
+  CreateNotificationDTO,
 } from "../dto/NotificationDTO";
 
 class NotificationsController {
@@ -10,7 +10,7 @@ class NotificationsController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      const data: CreateNotificationsDTO = req.body;
+      const data: CreateNotificationDTO = req.body;
       const createdNotifications = await this.service.create(data);
       res.status(201).json(createdNotifications);
     } catch (error) {
@@ -53,7 +53,7 @@ class NotificationsController {
   async update(req: Request, res: Response): Promise<void> {
     try {
       const id: string = req.params.id;
-      const data: UpdateNotificationsDTO = req.body;
+      const data: UpdateNotificationDTO = req.body;
       const updatedNotifications = await this.service.update(id, data);
 
       if (updatedNotifications) {

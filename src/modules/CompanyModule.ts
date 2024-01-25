@@ -1,16 +1,18 @@
-import { CompanySchema, ICompany } from "../models/Company";
-import CompanyRepository from "../repositories/CompanyRepository";
-import CompanyService from "../services/CompanyService";
-import CompanyController from "../controllers/CompanyController";
-import { model } from "mongoose";
+import { Sequelize } from 'sequelize';
+import CompanyRepository from '../repositories/CompanyRepository';
+import CompanyService from '../services/CompanyService';
+import CompanyController from '../controllers/CompanyController';
+import { SequelizeConnection } from '../database/connection';
 
-export class CompanyModule {
+class CompanyModule {
   static make() {
-    const CompanyModel = model<ICompany>('Company', CompanySchema);
-    const repository = new CompanyRepository(CompanyModel)
-    const service = new CompanyService(repository)
-    const controller = new CompanyController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new CompanyRepository(sequelize);
+    const service = new CompanyService(repository);
+    const controller = new CompanyController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { CompanyModule };

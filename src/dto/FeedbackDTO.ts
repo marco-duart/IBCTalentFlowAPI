@@ -3,7 +3,7 @@ export interface CreateFeedbackDTO {
   overallAssessment: number;
   specificComment: string;
   improvements?: string;
-  candidateId: number;
+  applicationStatusId: number;
   hiringProcessId: number;
 }
 

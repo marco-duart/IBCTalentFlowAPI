@@ -1,8 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { ApplicationStatus } from "./ApplicationStatus";
-import { Interview } from "./Interview";
-import { Feedback } from "./Feedback";
-import { ApplicationDocuments } from "./ApplicationDocuments";
+import { User } from "./User";
 
 export interface ICandidate {
   name: string | null;
@@ -12,6 +10,13 @@ export interface ICandidate {
   employee: boolean | null;
   resume?: string | null;
   portfolio?: string | null;
+  documents: {
+    documentName: string,
+    documentNumber: string,
+    issueDate: Date;
+    location: string;
+    image: string;
+  }[] | null
   academicHistory: {
     title: string;
     institution: string;
@@ -35,10 +40,7 @@ export interface ICandidate {
         achievements?: string[];
       }[]
     | null;
-  applicationStatusId?: number[] | null;
-  interviewsId?: number[] | null;
-  feedbackId?: number[] | null;
-  applicationDocumentsId?: number[] | null;
+  applicationStatusIds?: number[] | null;
   userId: number | null;
   deletedAt?: Date | null;
 }
@@ -51,6 +53,13 @@ class Candidate extends Model<ICandidate> implements ICandidate {
   public employee!: boolean;
   public resume?: string | null;
   public portfolio?: string | null;
+  public documents!: {
+    documentName: string,
+    documentNumber: string,
+    issueDate: Date;
+    location: string;
+    image: string;
+  }[]
   public academicHistory!: {
     title: string;
     institution: string;
@@ -58,7 +67,7 @@ class Candidate extends Model<ICandidate> implements ICandidate {
     startDate: Date;
     endDate: Date;
   }[];
-  public skills?: string[] | null;
+  public skills?: string[];
   public professionalLinks?:
     | {
         title: string;
@@ -72,10 +81,7 @@ class Candidate extends Model<ICandidate> implements ICandidate {
     endDate?: Date;
     achievements?: string[];
   }[];
-  public applicationStatusId?: number[] | null;
-  public interviewsId?: number[] | null;
-  public feedbackId?: number[] | null;
-  public applicationDocumentsId?: number[] | null;
+  public applicationStatusIds?: number[] | null;
   public userId!: number;
   public deletedAt?: Date | null;
 
@@ -112,6 +118,9 @@ export const initCandidate = (sequelize: Sequelize) => {
       portfolio: {
         type: DataTypes.STRING,
       },
+      documents: {
+        type: DataTypes.ARRAY(DataTypes.JSONB),
+      },
       academicHistory: {
         type: DataTypes.ARRAY(DataTypes.JSONB),
       },
@@ -124,16 +133,7 @@ export const initCandidate = (sequelize: Sequelize) => {
       employmentHistory: {
         type: DataTypes.ARRAY(DataTypes.JSONB),
       },
-      applicationStatusId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-      },
-      interviewsId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-      },
-      feedbackId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-      },
-      applicationDocumentsId: {
+      applicationStatusIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       userId: {
@@ -152,29 +152,19 @@ export const initCandidate = (sequelize: Sequelize) => {
     }
   );
 
+  Candidate.belongsTo(User, {
+    foreignKey: "candidateId",
+    targetKey: "id",
+    as: "candidate",
+  })
+
   Candidate.hasMany(ApplicationStatus, {
-    foreignKey: "id",
-    sourceKey: "applicationStatusId",
-    as: "applicationsStatus",
-  });
+    foreignKey: "candidateId",
+    as: "applications",
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
 
-  Candidate.hasMany(Interview, {
-    foreignKey: "id",
-    sourceKey: "interviewsId",
-    as: "interviews",
-  });
-
-  Candidate.hasMany(Feedback, {
-    foreignKey: "id",
-    sourceKey: "feedbackId",
-    as: "feedbacks",
-  });
-
-  Candidate.hasMany(ApplicationDocuments, {
-    foreignKey: "id",
-    sourceKey: "applicationDocumentsId",
-    as: "applicationDocuments",
-  });
 };
 
 export { Candidate };

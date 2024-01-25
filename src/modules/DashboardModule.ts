@@ -1,16 +1,18 @@
-import { DashboardSchema, IDashboard } from "../models/Dashboard";
-import DashboardRepository from "../repositories/DashboardRepository";
-import DashboardService from "../services/DashboardService";
-import DashboardController from "../controllers/DashboardController";
-import { model } from "mongoose";
+import { Sequelize } from 'sequelize';
+import DashboardRepository from '../repositories/DashboardRepository';
+import DashboardService from '../services/DashboardService';
+import DashboardController from '../controllers/DashboardController';
+import { SequelizeConnection } from '../database/connection';
 
-export class DashboardModule {
+class DashboardModule {
   static make() {
-    const DashboardModel = model<IDashboard>('Dashboard', DashboardSchema);
-    const repository = new DashboardRepository(DashboardModel)
-    const service = new DashboardService(repository)
-    const controller = new DashboardController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new DashboardRepository(sequelize);
+    const service = new DashboardService(repository);
+    const controller = new DashboardController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { DashboardModule };

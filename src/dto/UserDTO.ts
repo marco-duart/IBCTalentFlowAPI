@@ -5,16 +5,17 @@ export interface CreateUserDTO {
   email: string;
   password: string;
   role: Role;
+  photo?: string;
   candidateId?: number;
   recruiterId?: number;
 }
 
 export interface UpdateUserDTO {
-  name: string;
-  cpf: string;
-  email: string;
-  password: string;
-  role: Role;
+  name?: string;
+  email?: string;
+  password?: string;
+  role?: Role;
+  photo?: string;
   candidateId?: number;
   recruiterId?: number;
 }

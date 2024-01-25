@@ -1,16 +1,18 @@
-import { UserSchema, IUser } from "../models/User";
-import UserRepository from "../repositories/UserRepository";
-import UserService from "../services/UserService";
-import UserController from "../controllers/UserController";
-import { model } from "mongoose";
+import { Sequelize } from 'sequelize';
+import UserRepository from '../repositories/UserRepository';
+import UserService from '../services/UserService';
+import UserController from '../controllers/UserController';
+import { SequelizeConnection } from '../database/connection';
 
-export class UserModule {
+class UserModule {
   static make() {
-    const UserModel = model<IUser>('User', UserSchema);
-    const repository = new UserRepository(UserModel)
-    const service = new UserService(repository)
-    const controller = new UserController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new UserRepository(sequelize);
+    const service = new UserService(repository);
+    const controller = new UserController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { UserModule };

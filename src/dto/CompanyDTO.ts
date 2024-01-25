@@ -16,6 +16,7 @@ export interface CreateCompanyDTO {
 
 export interface UpdateCompanyDTO {
   companyName?: string;
+  cnpj?: string;
   sector?: string;
   companySize?: number;
   companyLocation?: string;
@@ -27,5 +28,5 @@ export interface UpdateCompanyDTO {
       link: string;
     }[];
   };
-  jobPostings?: string;
+  jobPostingIds?: string;
 }

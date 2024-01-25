@@ -1,4 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { HiringProcess } from "./HiringProcess";
+import { Company } from "./Company";
 
 export interface IJobPosting {
   title: string | null;
@@ -75,6 +77,19 @@ export const initJobPosting = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  JobPosting.hasMany(HiringProcess, {
+    foreignKey: 'jobPostingId',
+    as: 'hiringProcesses',
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  });
+
+  JobPosting.belongsTo(Company, {
+    foreignKey: 'jobPostingIds',
+    targetKey: 'id',
+    as: 'jobs',
+  });
 };
 
 export { JobPosting };

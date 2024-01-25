@@ -1,4 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { Recruiter } from "./Recruiter";
+import { ApplicationStatus } from "./ApplicationStatus";
+import { HiringProcess } from "./HiringProcess";
 
 export interface IInterview {
   dateTime: Date | null;
@@ -10,7 +13,7 @@ export interface IInterview {
       }[]
     | null;
   interviewFeedback?: string | null;
-  candidateId: number | null;
+  applicationStatusId: number | null;
   hiringProcessId: number | null;
   recruiterId: number | null;
   deletedAt?: Date | null;
@@ -24,7 +27,7 @@ class Interview extends Model<IInterview> implements IInterview {
     answer: string;
   }[];
   public interviewFeedback?: string;
-  public candidateId!: number;
+  public applicationStatusId!: number;
   public hiringProcessId!: number;
   public recruiterId!: number;
   public deletedAt?: Date | undefined;
@@ -50,7 +53,7 @@ export const initInterview = (sequelize: Sequelize) => {
       interviewFeedback: {
         type: DataTypes.STRING,
       },
-      candidateId: {
+      applicationStatusId: {
         type: DataTypes.INTEGER,
       },
       hiringProcessId: {
@@ -70,6 +73,24 @@ export const initInterview = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  Interview.belongsTo(Recruiter, {
+    foreignKey: 'recruiterId',
+    targetKey: 'id',
+    as: 'interviews',
+  });
+
+  Interview.belongsTo(ApplicationStatus, {
+    foreignKey: 'applicationStatusId',
+    targetKey: 'id',
+    as: 'interviews',
+  });
+
+  Interview.belongsTo(HiringProcess, {
+    foreignKey: 'hiringProcessId',
+    targetKey: 'id',
+    as: 'interviews',
+  });
 };
 
 export { Interview };

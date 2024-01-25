@@ -1,4 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { JobPosting } from "./JobPosting";
 
 export interface ICompany {
   companyName: string | null;
@@ -14,7 +15,7 @@ export interface ICompany {
       link: string;
     }[];
   } | null;
-  jobPostingsIdId?: string | null;
+  jobPostingIds?: string | null;
   deletedAt?: Date | null;
 }
 
@@ -32,7 +33,7 @@ class Company extends Model<ICompany> implements ICompany {
       link: string;
     }[];
   };
-  public jobPostingsIdId?: string;
+  public jobPostingIds?: string;
   public deletedAt?: Date | undefined;
 
   public readonly id!: number;
@@ -66,7 +67,7 @@ export const initCompany = (sequelize: Sequelize) => {
       contactInformation: {
         type: DataTypes.ARRAY(DataTypes.JSONB),
       },
-      jobPostingsIdId: {
+      jobPostingIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       deletedAt: {
@@ -80,6 +81,13 @@ export const initCompany = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  Company.hasMany(JobPosting, {
+    foreignKey: "companyId",
+    as: "jobs",
+    onDelete: "SET NULL",
+    onUpdate: "CASCATE"
+  })
 };
 
 export { Company };

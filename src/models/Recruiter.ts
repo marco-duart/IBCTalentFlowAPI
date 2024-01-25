@@ -1,4 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { User } from "./User";
+import { Interview } from "./Interview";
+import { HiringProcess } from "./HiringProcess";
 
 export interface IRecruiter {
   name: string | null;
@@ -60,6 +63,26 @@ export const initRecruiter = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  Recruiter.belongsTo(User, {
+    foreignKey: "recruiterId",
+    targetKey: "id",
+    as: "recruiter",
+  })
+
+  Recruiter.hasMany(Interview, {
+    foreignKey: "recruiterId",
+    as: "interviews",
+    onDelete: "SET NULL",
+    onUpdate: "CASCADE",
+  });
+
+  Recruiter.hasMany(HiringProcess, {
+    foreignKey: "recruiterId",
+    as: "hiringProcesses",
+    onDelete: "SET NULL",
+    onUpdate: "CASCADE",
+  });
 };
 
 export { Recruiter };

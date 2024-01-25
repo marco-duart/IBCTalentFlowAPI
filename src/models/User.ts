@@ -1,4 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { Candidate } from "./Candidate";
+import { Recruiter } from "./Recruiter";
 
 type Role = "ti" | "admin" | "user";
 
@@ -8,6 +10,7 @@ export interface IUser {
   email: string | null;
   password: string | null;
   role: Role | null;
+  photo?: string | null;
   candidateId?: number | null;
   recruiterId?: number | null;
   deletedAt?: Date | null;
@@ -19,6 +22,7 @@ class User extends Model<IUser> implements IUser {
   public email!: string;
   public password!: string;
   public role!: Role;
+  public photo?: string;
   public candidateId?: number;
   public recruiterId?: number;
 
@@ -50,6 +54,9 @@ export const initUser = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      photo: {
+        type: DataTypes.STRING,
+      },
       candidateId: {
         type: DataTypes.INTEGER,
       },
@@ -67,6 +74,14 @@ export const initUser = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  User.hasOne(Candidate, {
+    foreignKey: "id",
+  });
+
+  User.hasOne(Recruiter, {
+    foreignKey: "id",
+  });
 };
 
 export { User };

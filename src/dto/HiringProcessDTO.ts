@@ -4,6 +4,7 @@ export interface CreateHiringProcessDTO {
   stage: string;
   status: string;
   recruiterId: number;
+  jobPostingId: number;
 }
 
 export interface UpdateHiringProcessDTO {
@@ -11,8 +12,6 @@ export interface UpdateHiringProcessDTO {
   endDate?: Date;
   stage?: string;
   status?: string;
-  recruiterId?: number;
   interviewsId?: number[];
-  candidatesId?: number[];
   applicationStatusId?: number[];
 }

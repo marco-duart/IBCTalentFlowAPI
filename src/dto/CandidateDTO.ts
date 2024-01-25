@@ -6,6 +6,13 @@ export interface CreateCandidateDTO {
   employee: boolean;
   resume?: string;
   portfolio?: string;
+  documents: {
+    documentName: string,
+    documentNumber: string,
+    issueDate: Date;
+    location: string;
+    image: string;
+  }[];
   academicHistory: {
     title: string;
     institution: string;
@@ -20,7 +27,15 @@ export interface CreateCandidateDTO {
         link: string;
       }[]
    ;
-  employmentHistoryId?: number;
+  employmentHistory?:
+    | {
+        companyName: string;
+        position: string;
+        startDate: Date;
+        endDate?: Date;
+        achievements?: string[];
+      }[]
+   ;
   userId: number;
 }
 
@@ -32,6 +47,13 @@ export interface UpdateCandidateDTO {
   employee?: boolean;
   resume?: string;
   portfolio?: string;
+  documents?: {
+    documentName: string,
+    documentNumber: string,
+    issueDate: Date;
+    location: string;
+    image: string;
+  }[];
   academicHistory?: {
     title: string;
     institution: string;
@@ -46,10 +68,13 @@ export interface UpdateCandidateDTO {
         link: string;
       }[]
    ;
-  employmentHistoryId?: number;
-  applicationStatusId?: number[];
-  interviewsId?: number[];
-  feedbackId?: number[];
-  applicationDocumentsId?: number[];
-  userId: number;
+  employmentHistory?:
+    | {
+        companyName: string;
+        position: string;
+        startDate: Date;
+        endDate?: Date;
+        achievements?: string[];
+      }[]
+   ;
 }

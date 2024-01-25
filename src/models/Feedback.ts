@@ -1,11 +1,13 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { ApplicationStatus } from "./ApplicationStatus";
+import { HiringProcess } from "./HiringProcess";
 
 export interface IFeedback {
   feedbackTitle: string | null;
   overallAssessment: number | null; //Verificar a necessidade e a forma de abordagem
   specificComment: string | null;
   improvements?: string | null;
-  candidateId: number | null;
+  applicationStatusId: number | null;
   hiringProcessId: number | null;
   deletedAt?: Date | null;
 }
@@ -15,7 +17,7 @@ class Feedback extends Model<IFeedback> implements IFeedback {
   public overallAssessment!: number;
   public specificComment!: string;
   public improvements?: string;
-  public candidateId!: number;
+  public applicationStatusId!: number;
   public hiringProcessId!: number;
   public deletedAt?: Date | undefined;
 
@@ -42,7 +44,7 @@ export const initFeedback = (sequelize: Sequelize) => {
       improvements: {
         type: DataTypes.STRING,
       },
-      candidateId: {
+      applicationStatusId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -61,6 +63,18 @@ export const initFeedback = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  Feedback.belongsTo(ApplicationStatus, {
+    foreignKey: 'applicationStatusId',
+    targetKey: 'id',
+    as: 'feedbacks',
+  })
+
+  Feedback.belongsTo(HiringProcess, {
+    foreignKey: 'hiringProcessId',
+    targetKey: 'id',
+    as: 'feedbacks',
+  })
 };
 
 export { Feedback };

@@ -6,6 +6,7 @@ export interface CreateJobPostingDTO {
   salary?: string;
   startDate?: Date;
   endDate?: Date;
+  hiringProcess?: number[];
   companyId: number;
 }
 
@@ -17,4 +18,5 @@ export interface UpdateJobPostingDTO {
   salary?: string;
   startDate?: Date;
   endDate?: Date;
+  hiringProcess?: number[];
 }

@@ -1,15 +1,18 @@
-import { CandidateSchema, ICandidate } from "../models/Candidate";
-import CandidateRepository from "../repositories/CandidateRepository";
-import CandidateService from "../services/CandidateService";
-import CandidateController from "../controllers/CandidateController";
+import { Sequelize } from 'sequelize';
+import CandidateRepository from '../repositories/CandidateRepository';
+import CandidateService from '../services/CandidateService';
+import CandidateController from '../controllers/CandidateController';
+import { SequelizeConnection } from '../database/connection';
 
-export class CandidateModule {
+class CandidateModule {
   static make() {
-    const CandidateModel = model<ICandidate>('Candidate', CandidateSchema);
-    const repository = new CandidateRepository(CandidateModel)
-    const service = new CandidateService(repository)
-    const controller = new CandidateController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new CandidateRepository(sequelize);
+    const service = new CandidateService(repository);
+    const controller = new CandidateController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { CandidateModule };

@@ -1,16 +1,18 @@
-import { RecruiterSchema, IRecruiter } from "../models/Recruiter";
-import RecruiterRepository from "../repositories/RecruiterRepository";
-import RecruiterService from "../services/RecruiterService";
-import RecruiterController from "../controllers/RecruiterController";
-import { model } from "mongoose";
+import { Sequelize } from 'sequelize';
+import RecruiterRepository from '../repositories/RecruiterRepository';
+import RecruiterService from '../services/RecruiterService';
+import RecruiterController from '../controllers/RecruiterController';
+import { SequelizeConnection } from '../database/connection';
 
-export class RecruiterModule {
+class RecruiterModule {
   static make() {
-    const RecruiterModel = model<IRecruiter>('Recruiter', RecruiterSchema);
-    const repository = new RecruiterRepository(RecruiterModel)
-    const service = new RecruiterService(repository)
-    const controller = new RecruiterController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new RecruiterRepository(sequelize);
+    const service = new RecruiterService(repository);
+    const controller = new RecruiterController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { RecruiterModule };
