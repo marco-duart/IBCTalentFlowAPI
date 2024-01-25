@@ -1,15 +1,18 @@
-import { ApplicationDocumentsSchema, IApplicationDocuments } from "../models/ApplicationDocuments";
-import ApplicationDocumentsRepository from "../repositories/ApplicationDocumentsRepository";
-import ApplicationDocumentsService from "../services/ApplicationDocumentsService";
-import ApplicationDocumentsController from "../controllers/ApplicationDocumentsController";
+import { Sequelize } from 'sequelize';
+import ApplicationDocumentsRepository from '../repositories/ApplicationDocumentsRepository';
+import ApplicationDocumentsService from '../services/ApplicationDocumentsService';
+import ApplicationDocumentsController from '../controllers/ApplicationDocumentsController';
+import { SequelizeConnection } from '../database/connection';
 
-export class ApplicationDocumentsModule {
+class ApplicationDocumentsModule {
   static make() {
-    const ApplicationDocumentsModel = model<IApplicationDocuments>('ApplicationDocuments', ApplicationDocumentsSchema);
-    const repository = new ApplicationDocumentsRepository(ApplicationDocumentsModel)
-    const service = new ApplicationDocumentsService(repository)
-    const controller = new ApplicationDocumentsController(service)
+    const sequelize: Sequelize = SequelizeConnection.sequelize;
+    const repository = new ApplicationDocumentsRepository(sequelize);
+    const service = new ApplicationDocumentsService(repository);
+    const controller = new ApplicationDocumentsController(service);
 
-    return { controller, service, repository }
+    return { controller, service, repository };
   }
 }
+
+export { ApplicationDocumentsModule };

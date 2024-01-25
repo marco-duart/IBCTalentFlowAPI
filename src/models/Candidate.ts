@@ -1,4 +1,8 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { ApplicationStatus } from "./ApplicationStatus";
+import { Interview } from "./Interview";
+import { Feedback } from "./Feedback";
+import { ApplicationDocuments } from "./ApplicationDocuments";
 
 export interface ICandidate {
   name: string | null;
@@ -147,6 +151,30 @@ export const initCandidate = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
+
+  Candidate.hasMany(ApplicationStatus, {
+    foreignKey: "id",
+    sourceKey: "applicationStatusId",
+    as: "applicationsStatus",
+  });
+
+  Candidate.hasMany(Interview, {
+    foreignKey: "id",
+    sourceKey: "interviewsId",
+    as: "interviews",
+  });
+
+  Candidate.hasMany(Feedback, {
+    foreignKey: "id",
+    sourceKey: "feedbackId",
+    as: "feedbacks",
+  });
+
+  Candidate.hasMany(ApplicationDocuments, {
+    foreignKey: "id",
+    sourceKey: "applicationDocumentsId",
+    as: "applicationDocuments",
+  });
 };
 
 export { Candidate };
