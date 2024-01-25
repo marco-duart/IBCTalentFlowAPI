@@ -7,8 +7,8 @@ export interface IRecruiter {
   name: string | null;
   email: string | null;
   position?: string | null;
-  interviewsId?: number[] | null;
-  hiringProcessesId?: number[] | null;
+  interviewIds?: number[] | null;
+  hiringProcessIds?: number[] | null;
   userId: number | null;
   deletedAt?: Date | null;
 }
@@ -17,8 +17,8 @@ class Recruiter extends Model<IRecruiter> implements IRecruiter {
   public name!: string;
   public email!: string;
   public position?: string;
-  public interviewsId?: number[];
-  public hiringProcessesId?: number[];
+  public interviewIds?: number[];
+  public hiringProcessIds?: number[];
   public userId!: number;
   public deletedAt?: Date | undefined;
 
@@ -32,25 +32,21 @@ export const initRecruiter = (sequelize: Sequelize) => {
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       position: {
         type: DataTypes.STRING,
       },
-      interviewsId: {
+      interviewIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false,
       },
-      hiringProcessesId: {
+      hiringProcessIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       deletedAt: {
         type: DataTypes.DATE,
@@ -63,26 +59,6 @@ export const initRecruiter = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  Recruiter.belongsTo(User, {
-    foreignKey: "recruiterId",
-    targetKey: "id",
-    as: "recruiter",
-  })
-
-  Recruiter.hasMany(Interview, {
-    foreignKey: "recruiterId",
-    as: "interviews",
-    onDelete: "SET NULL",
-    onUpdate: "CASCADE",
-  });
-
-  Recruiter.hasMany(HiringProcess, {
-    foreignKey: "recruiterId",
-    as: "hiringProcesses",
-    onDelete: "SET NULL",
-    onUpdate: "CASCADE",
-  });
 };
 
 export { Recruiter };

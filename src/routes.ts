@@ -7,14 +7,12 @@ import { authenticationMiddleware } from "./middlewares/authenticationValidateMi
 import { authorizationMiddleware } from "./middlewares/authenticateUserMiddleware";
 
 //SPECIFIC MIDDLEWARES
-import { deleteCandidateMiddleware, getByIdCandidateMiddleware } from "./middlewares/candidateMiddleware";
 
 
 //SHARED MODULES
 import { AuthenticationModule } from "./modules/AuthenticationModule";
 
 //SPECIFIC MODULES
-import { ApplicationDocumentsModule } from "./modules/ApplicationDocumentsModule";
 import { ApplicationStatusModule } from "./modules/ApplicationStatusModule";
 import { CandidateModule } from "./modules/CandidateModule";
 import { CompanyModule } from "./modules/CompanyModule";
@@ -23,7 +21,7 @@ import { FeedbackModule } from "./modules/FeedbackModule";
 import { HiringProcessModule } from "./modules/HiringProcessModule";
 import { InterviewModule } from "./modules/InterviewModule";
 import { JobPostingModule } from "./modules/JobPostingModule";
-import { NotificationsModule } from "./modules/NotificationModule";
+import { NotificationModule } from "./modules/NotificationModule";
 import { RecruiterModule } from "./modules/RecruiterModule";
 import { UserModule } from "./modules/UserModule";
 
@@ -42,16 +40,6 @@ namespace AuthenticationRoutes {
   router.post("/login", logMiddleware, authenticationMiddleware, controller.login.bind(controller))
 }
 
-namespace ApplicationDocumentsRoutes {
-  const { controller } = ApplicationDocumentsModule.make()
-
-  router.post("/applicationDocuments", logMiddleware, authorizationMiddleware, controller.create.bind(controller));
-  router.get("/applicationDocuments/:id", logMiddleware, authorizationMiddleware, controller.getById.bind(controller));
-  router.get("/applicationDocuments", logMiddleware, authorizationMiddleware, controller.getAll.bind(controller));
-  router.patch("/applicationDocuments/:id", logMiddleware, authorizationMiddleware, controller.update.bind(controller))
-  router.delete("/applicationDocuments/:id", logMiddleware, authorizationMiddleware, controller.delete.bind(controller))
-}
-
 namespace ApplicationStatusRoutes {
   const { controller } = ApplicationStatusModule.make()
 
@@ -66,10 +54,10 @@ namespace CandidateRoutes {
   const { controller } = CandidateModule.make()
 
   router.post("/candidate", logMiddleware, controller.create.bind(controller));
-  router.get("/candidate/:id", logMiddleware, authorizationMiddleware, getByIdCandidateMiddleware, controller.getById.bind(controller));
+  router.get("/candidate/:id", logMiddleware, authorizationMiddleware, controller.getById.bind(controller));
   router.get("/candidate", logMiddleware, authorizationMiddleware, controller.getAll.bind(controller));
   router.patch("/candidate/:id", logMiddleware, authorizationMiddleware, controller.update.bind(controller))
-  router.delete("/candidate/:id", logMiddleware, authorizationMiddleware, deleteCandidateMiddleware, controller.delete.bind(controller))
+  router.delete("/candidate/:id", logMiddleware, authorizationMiddleware, controller.delete.bind(controller))
 }
 
 
@@ -134,7 +122,7 @@ namespace JobPostingRoutes {
 }
 
 namespace NotificationsRoutes {
-  const { controller } = NotificationsModule.make()
+  const { controller } = NotificationModule.make()
 
   router.post("/notifications", logMiddleware, controller.create.bind(controller));
   router.get("/notifications/:id", logMiddleware, authorizationMiddleware, controller.getById.bind(controller));

@@ -13,6 +13,7 @@ import { initJobPosting } from '../models/JobPosting';
 import { initNotification } from '../models/Notification';
 import { initRecruiter } from '../models/Recruiter';
 import { initUser } from '../models/User';
+import { initAssociations } from './associations';
 
 class SequelizeConnection {
   private static _sequelize: Sequelize;
@@ -49,6 +50,8 @@ class SequelizeConnection {
     initNotification(this._sequelize);
     initRecruiter(this._sequelize);
     initUser(this._sequelize);
+
+    initAssociations()
   }
 
   private static async authenticate(): Promise<void> {

@@ -1,6 +1,4 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { HiringProcess } from "./HiringProcess";
-import { Company } from "./Company";
 
 export interface IJobPosting {
   title: string | null;
@@ -10,7 +8,7 @@ export interface IJobPosting {
   salary?: string | null;
   startDate?: Date | null;
   endDate?: Date | null;
-  hiringProcess?: number[] | null;
+  hiringProcessIds?: number[] | null;
   companyId: number | null;
   deletedAt?: Date | null;
 }
@@ -23,7 +21,7 @@ class JobPosting extends Model<IJobPosting> implements IJobPosting {
   public salary?: string;
   public startDate?: Date;
   public endDate?: Date;
-  public hiringProcessId?: number[];
+  public hiringProcessIds?: number[];
   public companyId!: number;
   public deletedAt?: Date | undefined;
 
@@ -37,19 +35,15 @@ export const initJobPosting = (sequelize: Sequelize) => {
     {
       title: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       description: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       requirements: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
       },
       jobLocation: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       salary: {
         type: DataTypes.STRING,
@@ -60,7 +54,7 @@ export const initJobPosting = (sequelize: Sequelize) => {
       endDate: {
         type: DataTypes.DATE,
       },
-      hiringProcess: {
+      hiringProcessIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       companyId: {
@@ -77,19 +71,6 @@ export const initJobPosting = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  JobPosting.hasMany(HiringProcess, {
-    foreignKey: 'jobPostingId',
-    as: 'hiringProcesses',
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  });
-
-  JobPosting.belongsTo(Company, {
-    foreignKey: 'jobPostingIds',
-    targetKey: 'id',
-    as: 'jobs',
-  });
 };
 
 export { JobPosting };

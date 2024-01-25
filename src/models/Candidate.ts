@@ -10,13 +10,15 @@ export interface ICandidate {
   employee: boolean | null;
   resume?: string | null;
   portfolio?: string | null;
-  documents: {
-    documentName: string,
-    documentNumber: string,
-    issueDate: Date;
-    location: string;
-    image: string;
-  }[] | null
+  documents:
+    | {
+        documentName: string;
+        documentNumber: string;
+        issueDate: Date;
+        location: string;
+        image: string;
+      }[]
+    | null;
   academicHistory: {
     title: string;
     institution: string;
@@ -54,12 +56,12 @@ class Candidate extends Model<ICandidate> implements ICandidate {
   public resume?: string | null;
   public portfolio?: string | null;
   public documents!: {
-    documentName: string,
-    documentNumber: string,
+    documentName: string;
+    documentNumber: string;
     issueDate: Date;
     location: string;
     image: string;
-  }[]
+  }[];
   public academicHistory!: {
     title: string;
     institution: string;
@@ -95,22 +97,18 @@ export const initCandidate = (sequelize: Sequelize) => {
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       phoneNumber1: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       phoneNumber2: {
         type: DataTypes.STRING,
       },
       employee: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
       },
       resume: {
         type: DataTypes.STRING,
@@ -119,26 +117,25 @@ export const initCandidate = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
       },
       documents: {
-        type: DataTypes.ARRAY(DataTypes.JSONB),
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
       academicHistory: {
-        type: DataTypes.ARRAY(DataTypes.JSONB),
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
       skills: {
         type: DataTypes.ARRAY(DataTypes.STRING),
       },
       professionalLinks: {
-        type: DataTypes.ARRAY(DataTypes.JSONB),
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
       employmentHistory: {
-        type: DataTypes.ARRAY(DataTypes.JSONB),
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
       applicationStatusIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       deletedAt: {
         type: DataTypes.DATE,
@@ -151,20 +148,6 @@ export const initCandidate = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  Candidate.belongsTo(User, {
-    foreignKey: "candidateId",
-    targetKey: "id",
-    as: "candidate",
-  })
-
-  Candidate.hasMany(ApplicationStatus, {
-    foreignKey: "candidateId",
-    as: "applications",
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-
 };
 
 export { Candidate };

@@ -46,26 +46,21 @@ export const initCompany = (sequelize: Sequelize) => {
     {
       companyName: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       cnpj: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       sector: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       companySize: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false,
+        type: DataTypes.INTEGER,
       },
       companyLocation: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
+        type: DataTypes.STRING,
       },
       contactInformation: {
-        type: DataTypes.ARRAY(DataTypes.JSONB),
+        type: DataTypes.JSON,
       },
       jobPostingIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
@@ -81,13 +76,6 @@ export const initCompany = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  Company.hasMany(JobPosting, {
-    foreignKey: "companyId",
-    as: "jobs",
-    onDelete: "SET NULL",
-    onUpdate: "CASCATE"
-  })
 };
 
 export { Company };

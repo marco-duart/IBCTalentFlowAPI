@@ -32,7 +32,7 @@ class Interview extends Model<IInterview> implements IInterview {
   public recruiterId!: number;
   public deletedAt?: Date | undefined;
 
-  public readonly id!:number;
+  public readonly id!: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -42,13 +42,12 @@ export const initInterview = (sequelize: Sequelize) => {
     {
       dateTime: {
         type: DataTypes.DATE,
-        allowNull: false,
       },
       interviewType: {
         type: DataTypes.STRING,
       },
       questions: {
-        type: DataTypes.ARRAY(DataTypes.JSONB),
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
       interviewFeedback: {
         type: DataTypes.STRING,
@@ -73,24 +72,6 @@ export const initInterview = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  Interview.belongsTo(Recruiter, {
-    foreignKey: 'recruiterId',
-    targetKey: 'id',
-    as: 'interviews',
-  });
-
-  Interview.belongsTo(ApplicationStatus, {
-    foreignKey: 'applicationStatusId',
-    targetKey: 'id',
-    as: 'interviews',
-  });
-
-  Interview.belongsTo(HiringProcess, {
-    foreignKey: 'hiringProcessId',
-    targetKey: 'id',
-    as: 'interviews',
-  });
 };
 
 export { Interview };

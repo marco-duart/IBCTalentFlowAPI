@@ -36,23 +36,18 @@ export const initUser = (sequelize: Sequelize) => {
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       cpf: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       email: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,
+        type: DataTypes.STRING,
       },
       password: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       role: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       photo: {
         type: DataTypes.STRING,
@@ -74,14 +69,6 @@ export const initUser = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  User.hasOne(Candidate, {
-    foreignKey: "id",
-  });
-
-  User.hasOne(Recruiter, {
-    foreignKey: "id",
-  });
 };
 
 export { User };

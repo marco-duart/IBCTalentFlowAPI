@@ -25,19 +25,15 @@ export const initNotification = (sequelize: Sequelize) => {
     {
       title: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       notificationType: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       recipient: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       message: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       deletedAt: {
         type: DataTypes.DATE,

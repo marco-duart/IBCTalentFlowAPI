@@ -4,6 +4,7 @@ const env = {
   DB_USER: process.env.DB_USER as string,
   DB_PASSWORD: process.env.DB_PASSWORD as string,
   DB_DATABASE: process.env.DB_DATABASE as string,
+  SERVER_PORT: process.env.SERVER_PORT as string,
   JWT_SECRET_KEY: process.env.JTW_SECRET_KEY as string
 }
 

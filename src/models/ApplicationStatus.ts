@@ -36,23 +36,18 @@ export const initApplicationStatus = (sequelize: Sequelize) => {
     {
       status: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       candidateId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       hiringProcessId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       interviewIds: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       feedbackIds: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
       },
       deletedAt: {
         type: DataTypes.DATE,
@@ -65,33 +60,6 @@ export const initApplicationStatus = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  ApplicationStatus.belongsTo(Candidate, {
-    foreignKey: 'applicationStatusIds',
-    targetKey: 'id',
-    as: 'candidateStatus',
-  });
-
-  ApplicationStatus.belongsTo(HiringProcess, {
-    foreignKey: 'applicationStatusIds',
-    targetKey: 'id',
-    as: 'candidateStatus',
-  })
-
-  ApplicationStatus.hasMany(Feedback, {
-    foreignKey: 'applicationStatusId',
-    as: "application",
-    onDelete: "SET NULL",
-    onUpdate: "CASCATE"
-  })
-
-  ApplicationStatus.hasMany(Interview, {
-    foreignKey: 'applicationStatusId',
-    as: "application",
-    onDelete: "SET NULL",
-    onUpdate: "CASCATE"
-  });
-
 };
 
 export { ApplicationStatus };

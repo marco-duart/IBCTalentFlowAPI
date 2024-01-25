@@ -37,7 +37,6 @@ export const initHiringProcess = (sequelize: Sequelize) => {
     {
       startDate: {
         type: DataTypes.DATE,
-        allowNull: false,
       },
       endDate: {
         type: DataTypes.DATE,
@@ -50,11 +49,9 @@ export const initHiringProcess = (sequelize: Sequelize) => {
       },
       recruiterId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       jobPostingId: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
-        allowNull: false,
+        type: DataTypes.INTEGER,
       },
       interviewIds: {
         type: DataTypes.ARRAY(DataTypes.INTEGER),
@@ -73,32 +70,6 @@ export const initHiringProcess = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  HiringProcess.belongsTo(Recruiter, {
-    foreignKey: "recruiterId",
-    targetKey: "id",
-    as: "hiringProcesses",
-  });
-
-  HiringProcess.belongsTo(JobPosting, {
-    foreignKey: "jobPostingId",
-    targetKey: "id",
-    as: "hiringProcesses",
-  });
-
-  HiringProcess.hasMany(ApplicationStatus, {
-    foreignKey: "hiringProcessId",
-    as: "applications",
-    onDelete: "SET NULL",
-    onUpdate: "CASCADE",
-  });
-
-  HiringProcess.hasMany(Interview, {
-    foreignKey: "hiringProcessId",
-    as: "interviews",
-    onDelete: "SET NULL",
-    onUpdate: "CASCADE",
-  });
 };
 
 export { HiringProcess };

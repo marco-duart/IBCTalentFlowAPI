@@ -13,7 +13,7 @@ class UserService {
   }
 
   async create(data: CreateUserDTO): Promise<User> {
-    const userAlreadyExists = await this.repository.findByEmail(data.email)
+    const userAlreadyExists = await this.repository.findByCpf(data.cpf)
     if(userAlreadyExists) {
       throw new UserAlreadyExistsError(userAlreadyExists.email)
     }

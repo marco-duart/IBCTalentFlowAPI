@@ -31,26 +31,21 @@ export const initFeedback = (sequelize: Sequelize) => {
     {
       feedbackTitle: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       overallAssessment: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       specificComment: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       improvements: {
         type: DataTypes.STRING,
       },
       applicationStatusId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       hiringProcessId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
       deletedAt: {
         type: DataTypes.DATE,
@@ -63,18 +58,6 @@ export const initFeedback = (sequelize: Sequelize) => {
       paranoid: true,
     }
   );
-
-  Feedback.belongsTo(ApplicationStatus, {
-    foreignKey: 'applicationStatusId',
-    targetKey: 'id',
-    as: 'feedbacks',
-  })
-
-  Feedback.belongsTo(HiringProcess, {
-    foreignKey: 'hiringProcessId',
-    targetKey: 'id',
-    as: 'feedbacks',
-  })
 };
 
 export { Feedback };

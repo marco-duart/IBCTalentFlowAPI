@@ -25,19 +25,15 @@ export const initDashboard = (sequelize: Sequelize) => {
     {
       overview: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       statistics: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       permissions: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       reporting: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       deletedAt: {
         type: DataTypes.DATE,
